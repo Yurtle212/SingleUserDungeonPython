@@ -1,0 +1,63 @@
+{
+  "Enemies": {
+
+  },
+  "Races": {
+    "D-Class": {
+      "Atk": 3,
+      "Def": 2,
+      "CognitoFortitude": 1,
+      "Sneakyness": 6,
+      "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects."
+    },
+    "Researcher": {
+      "Atk": 2,
+      "Def": 2,
+      "CognitoFortitude": 5,
+      "Sneakyness": 3,
+      "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength."
+    },
+    "MTF Agent": {
+      "Atk": 6,
+      "Def": 5,
+      "CognitoFortitude": 3,
+      "Sneakyness": 1,
+      "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky."
+    }
+  },
+  "Player": {
+    "Level": 1,
+    "Atk": 0,
+    "Def": 0,
+    "Race": "D-Class",
+    "Name": "D-9341"
+  },
+  "Map": {
+    "Pieces": {
+      "═": ["West", "East"],
+      "║": ["North", "South"],
+      "╔": ["South", "West"],
+      "╗": ["South", "East"],
+      "╚": ["North", "East"],
+      "╝": ["North", "West"],
+      "╠": ["North", "South", "East"],
+      "╣": ["North", "South", "West"],
+      "╦": ["South", "West", "East"],
+      "╩": ["North", "West", "East"],
+      "╬": ["North", "South", "West", "East"],
+      "╞": ["East"],
+      "╡": ["West"],
+      "╥": ["South"],
+      "╨": ["North"]
+    },
+    "Descriptions": {
+      "Empty": ["This room is empty. The lights are flickering...", "This room is empty.", "There is nothing in this room."],
+      "Loot": ["You enter the room and notice there's XXXX on the floor", "You enter the room and notice there's something on a table..."],
+      "Enemy": ["You enter the room and notice there's XXXX in the corner!", "As soon as you enter, XXXX attacks you!"]
+    }
+  },
+  "Colours": {
+    "Normal": "0",
+    "Player": "33"
+  }
+}
