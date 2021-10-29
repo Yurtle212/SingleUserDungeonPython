@@ -37,97 +37,97 @@
   "Map": {
     "Pieces": {
       "░": {
-        "Dir": ["North", "South", "East", "West"],
+        "Dir": ["north", "south", "east", "west", "n", "s", "e", "w"],
         "Colour": "Wall",
         "Enemies": ["None"]
       },
       "═": {
-        "Dir": ["East", "West"],
+        "Dir": ["east", "west", "e", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "║": {
-        "Dir": ["North", "South"],
+        "Dir": ["north", "south", "n", "s"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╔": {
-        "Dir": ["South", "East"],
+        "Dir": ["south", "east", "s", "e"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╗": {
-        "Dir": ["South", "West"],
+        "Dir": ["south", "west", "s", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╚": {
-        "Dir": ["North", "East"],
+        "Dir": ["north", "east", "n", "e"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╝": {
-        "Dir": ["North", "West"],
+        "Dir": ["north", "west", "n", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╠": {
-        "Dir": ["North", "South", "East"],
+        "Dir": ["north", "south", "east", "n", "s", "e"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╣": {
-        "Dir": ["North", "South", "West"],
+        "Dir": ["north", "south", "west", "n", "s", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╦": {
-        "Dir": ["South", "East", "West"],
+        "Dir": ["south", "east", "west", "s", "e", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╩": {
-        "Dir": ["North", "East", "West"],
+        "Dir": ["north", "east", "west", "n", "e", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╬": {
-        "Dir": ["North", "South", "East", "West"],
+        "Dir": ["north", "south", "east", "west", "n", "s", "e", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╞": {
-        "Dir": ["East"],
+        "Dir": ["east", "e"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╡": {
-        "Dir": ["West"],
+        "Dir": ["west", "w"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╥": {
-        "Dir": ["South"],
+        "Dir": ["south", "s"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╨": {
-        "Dir": ["North"],
+        "Dir": ["north", "n"],
         "Colour": "Normal",
         "Enemies": ["Random"]
       },
       "╳": {
-        "Dir": ["South"],
+        "Dir": ["south", "s"],
         "Colour": "Boss",
         "Enemies": ["SCP-939"]
       },
       "2": {
-        "Dir": ["North", "South"],
+        "Dir": ["north", "south", "n", "s"],
         "Colour": "Level",
         "Enemies": ["None"]
       },
       "3": {
-        "Dir": ["North", "South"],
+        "Dir": ["north", "south", "n", "s"],
         "Colour": "Level",
         "Enemies": ["None"]
       }
@@ -144,5 +144,19 @@
     "Boss": "31",
     "Wall": "90",
     "Level": "34"
+  },
+  "Inputs": {
+    "MapView": {
+      "Move": ["north", "south", "east", "west", "n", "s", "e", "w"],
+      "Inventory": ["inventory", "use", "discard", "throw"],
+      "Info": ["check", "info"]
+    },
+    "Battle": {
+      "Attack": ["attack", "shoot"],
+      "Defend": ["defend", "brace", "block"],
+      "Inventory": ["inventory", "use", "throw"],
+      "Info": ["check", "info"],
+      "Flee": ["flee", "run", "escape"]
+    }
   }
 }
