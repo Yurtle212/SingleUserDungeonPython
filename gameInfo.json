@@ -8,14 +8,16 @@
       "Def": 2,
       "CognitoFortitude": 1,
       "Sneakyness": 6,
-      "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects."
+      "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects.",
+      "Starting Pos": [24, 17]
     },
     "Researcher": {
       "Atk": 2,
       "Def": 2,
       "CognitoFortitude": 5,
       "Sneakyness": 3,
-      "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength."
+      "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength.",
+      "Starting Pos": [20, 6]
     },
     "MTF Agent": {
       "Atk": 6,
@@ -34,21 +36,101 @@
   },
   "Map": {
     "Pieces": {
-      "═": ["West", "East"],
-      "║": ["North", "South"],
-      "╔": ["South", "West"],
-      "╗": ["South", "East"],
-      "╚": ["North", "East"],
-      "╝": ["North", "West"],
-      "╠": ["North", "South", "East"],
-      "╣": ["North", "South", "West"],
-      "╦": ["South", "West", "East"],
-      "╩": ["North", "West", "East"],
-      "╬": ["North", "South", "West", "East"],
-      "╞": ["East"],
-      "╡": ["West"],
-      "╥": ["South"],
-      "╨": ["North"]
+      "░": {
+        "Dir": ["North", "South", "East", "West"],
+        "Colour": "Wall",
+        "Enemies": ["None"]
+      },
+      "═": {
+        "Dir": ["East", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "║": {
+        "Dir": ["North", "South"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╔": {
+        "Dir": ["South", "East"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╗": {
+        "Dir": ["South", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╚": {
+        "Dir": ["North", "East"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╝": {
+        "Dir": ["North", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╠": {
+        "Dir": ["North", "South", "East"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╣": {
+        "Dir": ["North", "South", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╦": {
+        "Dir": ["South", "East", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╩": {
+        "Dir": ["North", "East", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╬": {
+        "Dir": ["North", "South", "East", "West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╞": {
+        "Dir": ["East"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╡": {
+        "Dir": ["West"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╥": {
+        "Dir": ["South"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╨": {
+        "Dir": ["North"],
+        "Colour": "Normal",
+        "Enemies": ["Random"]
+      },
+      "╳": {
+        "Dir": ["South"],
+        "Colour": "Boss",
+        "Enemies": ["SCP-939"]
+      },
+      "2": {
+        "Dir": ["North", "South"],
+        "Colour": "Level",
+        "Enemies": ["None"]
+      },
+      "3": {
+        "Dir": ["North", "South"],
+        "Colour": "Level",
+        "Enemies": ["None"]
+      }
     },
     "Descriptions": {
       "Empty": ["This room is empty. The lights are flickering...", "This room is empty.", "There is nothing in this room."],
@@ -58,6 +140,9 @@
   },
   "Colours": {
     "Normal": "0",
-    "Player": "33"
+    "Player": "33",
+    "Boss": "31",
+    "Wall": "90",
+    "Level": "34"
   }
 }

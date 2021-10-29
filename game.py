@@ -36,13 +36,13 @@ def print_map(game_map, player_position, game_info):
             if [row, room] == player_position:
                 final_map += f'\033[{game_info["Colours"]["Player"]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
             else:
-                final_map += game_map[row][room]
+                final_map += f'\033[{game_info["Colours"][game_info["Map"]["Pieces"][game_map[row][room]]["Colour"]]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
         final_map += "\n"
     return final_map
 
 
 def main():
-    player_position = [2, 12]
+    player_position = [24, 17]
     game_info = load_game_info()
     game_map = load_game_map()
     print(print_map(game_map, player_position, game_info))
