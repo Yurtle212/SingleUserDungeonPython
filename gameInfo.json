@@ -1,12 +1,34 @@
 {
   "Enemies": {
-
+    "SCP-049-2": {
+      "Name": "SCP-049-2",
+      "Atk": 2,
+      "Def": 2,
+      "HP": 25,
+      "Speed": 3,
+      "Description": "SCP-049-2 instances are reanimated corpses that have been operated on by SCP-049. These instances do not seem to retain any of their prior memories or mental functions, having only basic motor skills and response mechanisms. While these instances are generally inactive, moving very little and in a generally ambulatory fashion, they can become extremely aggressive if provoked, or if directed to by SCP-049. SCP-049-2 instances express active biological functions, though these are vastly different from currently understood human physiology."
+    },
+    "SCP-939": {
+      "Name": "SCP-939",
+      "Atk": 6,
+      "Def": 2,
+      "HP": 50,
+      "Speed": 0
+    },
+    "SCP-966": {
+      "Name": "SCP-966",
+      "Atk": 5,
+      "Def": 1,
+      "HP": 25,
+      "Speed": 2
+    }
   },
   "Races": {
     "D-Class": {
       "Atk": 3,
       "Def": 2,
       "CognitoFortitude": 1,
+      "Speed": 5,
       "Sneakyness": 6,
       "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects.",
       "Starting Pos": [24, 17]
@@ -15,6 +37,7 @@
       "Atk": 2,
       "Def": 2,
       "CognitoFortitude": 5,
+      "Speed": 3,
       "Sneakyness": 3,
       "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength.",
       "Starting Pos": [20, 6]
@@ -23,23 +46,34 @@
       "Atk": 6,
       "Def": 5,
       "CognitoFortitude": 3,
+      "Speed": 2,
       "Sneakyness": 1,
-      "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky."
+      "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky.",
+      "Starting Pos": [20, 6]
     }
   },
   "Player": {
     "Level": 1,
     "Atk": 0,
     "Def": 0,
+    "CognitoFortitude": 0,
+    "Speed": 0,
+    "Sneakyness": 0,
     "Race": "D-Class",
-    "Name": "D-9341"
+    "Name": "D-9341",
+    "Inventory": {
+
+    }
+  },
+  "Items": {
+
   },
   "Map": {
     "Pieces": {
       "░": {
         "Dir": ["north", "south", "east", "west", "n", "s", "e", "w"],
         "Colour": "Wall",
-        "Enemies": ["None"]
+        "Enemies": []
       },
       "═": {
         "Dir": ["east", "west", "e", "w"],
@@ -119,18 +153,21 @@
       "╳": {
         "Dir": ["south", "s"],
         "Colour": "Boss",
-        "Enemies": ["SCP-939"]
+        "Enemies": ["SCP-173"]
       },
       "2": {
         "Dir": ["north", "south", "n", "s"],
         "Colour": "Level",
-        "Enemies": ["None"]
+        "Enemies": []
       },
       "3": {
         "Dir": ["north", "south", "n", "s"],
         "Colour": "Level",
-        "Enemies": ["None"]
+        "Enemies": []
       }
+    },
+    "Game Map": {
+
     },
     "Descriptions": {
       "Empty": ["This room is empty. The lights are flickering...", "This room is empty.", "There is nothing in this room."],
@@ -148,13 +185,16 @@
   "Inputs": {
     "MapView": {
       "Move": ["north", "south", "east", "west", "n", "s", "e", "w"],
-      "Inventory": ["inventory", "use", "discard", "throw"],
-      "Info": ["check", "info"]
+      "Inventory": ["inventory", "inv"],
+      "Discard": ["discard", "garbage", "throw"],
+      "Use": ["use", "throw"],
+      "Info": ["check", "info"],
+      "Take": ["take", "grab", "get"]
     },
     "Battle": {
       "Attack": ["attack", "shoot"],
-      "Defend": ["defend", "brace", "block"],
-      "Inventory": ["inventory", "use", "throw"],
+      "Inventory": ["inventory", "inv"],
+      "Use": ["use", "throw"],
       "Info": ["check", "info"],
       "Flee": ["flee", "run", "escape"]
     }
