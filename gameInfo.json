@@ -1,21 +1,8 @@
 {
   "Enemies": {
-    "SCP-TEST": {
-      "Name": "SCP-TEST",
-      "Atk": 999,
-      "Def": 999,
-      "HP": 25,
-      "Speed": 3,
-      "Description": "Testing enemy",
-      "TEXT": {
-        "MISS": ["MISS"],
-        "HIT": ["HIT"],
-        "DEF": ["DEF"]
-      }
-    },
     "SCP-049-2": {
       "Name": "SCP-049-2",
-      "Atk": 2,
+      "Atk": 4,
       "Def": 2,
       "HP": 25,
       "Speed": 3,
@@ -23,32 +10,42 @@
       "TEXT": {
         "MISS": ["Your attack missed!"],
         "HIT": ["You hit the stupid zombie right in the face! It was very satisfying. You dealt !DMG HP!", "You hit SCP-049-2 for !DMG HP!"],
-        "DEF": ["Your attack glanced off of SCP-049-2. Unlucky!"]
+        "DEF": ["Your attack glanced off of SCP-049-2. Unlucky!"],
+        "ATKMISS": ["The zombie tried to bite you but missed!", "The SCP-049-2 swung at you, but it missed."],
+        "ATKHIT": ["The zombie bit you on the arm! It did !DMG HP. Luckily it's not contagious!", "The SCP-049-2 hit you for !DMG HP!"],
+        "ATKDEF": ["The zombie tried to bite you, but it didn't pierce your skin!", "The SCP-049-2 swung at you, but your armour deflected it!"]
       }
     },
     "SCP-939": {
       "Name": "SCP-939",
       "Atk": 6,
-      "Def": 2,
+      "Def": 4,
       "HP": 50,
       "Speed": 0,
       "Description": "SCP-939 are endothermic, pack-based predators which display atrophy of various systems similar to troglobitic organisms. The skins of SCP-939 are highly permeable to moisture and translucent red, owing to a compound chemically similar to hemoglobin. SCP-939 average 2.2 meters tall standing upright and weigh an average of 250 kg, though weight is highly variable. Each of their four limbs end in three-fingered claws with a fourth, opposable digit, and are covered in setae which considerably augment climbing ability. Their heads are elongated, devoid of even vestigial eyes or eye sockets, and contain no brain casing. The jaws of SCP-939 are lined with red, faintly luminescent fang-like teeth, similar to those belonging to specimens of the genus Chauliodus, up to 6 cm in length, and encircled by heat-sensitive pit organs. Eye spots, sensitive to light and dark, run the length of their spined dorsal ridges. These spines may be up to 16 cm long and are believed to be sensitive to changes in air pressure and flow.",
       "TEXT": {
         "MISS": ["Your attack missed!"],
         "HIT": ["Your attack hit the dog in leg! it dealt !DMG HP!", "You hit SCP-939 for !DMG HP!"],
-        "DEF": ["Your attack glanced off of SCP-939's tough skin. Unlucky!"]
+        "DEF": ["Your attack glanced off of SCP-939's tough skin. Unlucky!"],
+        "ATKMISS": ["The SCP-939 tried to bite you but missed!"],
+        "ATKHIT": ["The SCP-939 bit you on the leg! It did !DMG HP. Ouch!", "The SCP-939 attacked you for !DMG HP!"],
+        "ATKDEF": ["The SCP-939 tried to bite you, but it didn't pierce your skin!"]
       }
     },
     "SCP-966": {
       "Name": "SCP-966",
-      "Atk": 5,
-      "Def": 1,
+      "Atk": 3,
+      "Def": 4,
       "HP": 25,
       "Speed": 2,
+      "Description": "This applies to all of SCP-966's tissues. SCP-966 are predatory creatures that resemble hairless, digitigrade humans, possessing an elongated face with a mouth lined with needle-like teeth. On each hand, they have five claws that can be up to 20 cm long. Although sharp, these are easily broken, making them unfit for combat. SCP-966's height ranges from 1.4 to 1.6 meters, and they can reach up to 30 kg in weight. SCP-966 are visible only at wavelengths ranging from 700 nm to about 900 nm.",
       "TEXT": {
         "MISS": ["You attack randomly throughout the room, but nothing landed!"],
         "HIT": ["You swing wildly in the air, and somehow hit something. You dealt !DMG HP!", "You randomly attack around the room. One of them hit SCP-966 for !DMG HP!"],
-        "DEF": ["You attack randomly throughout the room, but nothing landed. Unlucky!"]
+        "DEF": ["You attack randomly throughout the room, but nothing landed."],
+        "ATKMISS": ["You felt the air whoosh past you. The SCP-966 must've just barely missed!"],
+        "ATKHIT": ["You feel a huge gash appear on your chest! The SCP-966 must've hit you! It did !DMG HP."],
+        "ATKDEF": ["You felt something glance off your armour. Must've been the SCP-966!"]
       }
     }
   },
@@ -88,8 +85,10 @@
     "CognitoFortitude": 1,
     "Speed": 5,
     "Sneakyness": 6,
+    "HP": 50,
     "Race": "D-Class",
     "Name": "D-9341",
+    "Kills": 0,
     "Inventory": {
 
     }
@@ -209,7 +208,8 @@
     "Player": "33",
     "Boss": "31",
     "Wall": "90",
-    "Level": "34"
+    "Level": "34",
+    "Enemy": "91"
   },
   "Inputs": {
     "MapView": {
@@ -227,5 +227,8 @@
       "Info": ["check", "info"],
       "Flee": ["flee", "run", "escape"]
     }
+  },
+  "Art": {
+    "Death": "           ______\n        .-\"      \"-.\n       /            \\\n      |              |\n      |,  .-.  .-.  ,|\n      | )(__/  \\__)( |\n      |/     /\\     \\|\n      (_     ^^     _)\n       \\__|IIIIII|__/\n        | \\IIIIII/ |\n        \\          /\n         `--------`"
   }
 }

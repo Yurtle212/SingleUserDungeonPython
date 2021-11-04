@@ -7,6 +7,7 @@ All of your code must go in this file.
 import json
 import random
 import math
+import time
 
 
 def load_game_info():
@@ -54,9 +55,10 @@ def print_map(game_map, player_position, game_info):
                 if abs(player_position[1] - room) <= view_range[1]: #Check horizontal distance
                     if [row, room] == player_position:
                         final_map += f'\033[{game_info["Colours"]["Player"]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
+                    elif (len(game_info["Map"]["Game Map"][row][room]["Enemies"]) > 0):
+                        final_map += f'\033[{game_info["Colours"]["Enemy"]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
                     else:
-                        final_map += f'\033[{game_info["Colours"][game_info["Map"]["Pieces"][game_map[row][room]]["Colour"]]}m' + \
-                                     game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
+                        final_map += f'\033[{game_info["Colours"][game_info["Map"]["Pieces"][game_map[row][room]]["Colour"]]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
             final_map += "\n"
     print(final_map)
 
@@ -72,31 +74,38 @@ def move_player(game_map, player_position, move_direction, game_info):
             player_position[1] = player_position[1] + 1
         elif move_direction.lower() == "west" or move_direction.lower() == "w":
             player_position[1] = player_position[1] - 1
+        regenerate_health(game_info)
     return player_position
 
 
 def initiate_battle(game_info, player_position):
     enemies = game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"]
     current_battle = {}
+    battle_message = "In the room you find "
     for enemy in range(len(enemies)):
         current_battle[enemy] = game_info["Enemies"][enemies[enemy]].copy()
-
+        battle_message += f"an {current_battle[enemy]['Name']}, and "
         if current_battle[enemy]["Speed"] > game_info["Player"]["Speed"]:
             attacked(game_info, enemy)
-    battle(game_info, current_battle, player_position)
+    if len(current_battle) > 0:
+        print(battle_message[:-6] + ".")
+        battle(game_info, current_battle, player_position)
 
 
 def battle(game_info, current_battle, player_position):
     while len(current_battle) > 0:
-        player_input = input("(BATTLE): What would you like to do next?: ")
+        if game_info['Player']['HP'] <= 0:
+            die(game_info)
+        has_attacked = False
+        player_input = input(f"({game_info['Player']['HP']}HP) (BATTLE): What would you like to do next?: ")
         input_type = interperet_input(player_input, True, game_info)
         if input_type == "Attack":
-            has_attacked = False
             for enemy in current_battle:
                 if ((len(player_input.split(" ")) > 1) and (player_input.split(" ")[1] in current_battle[enemy]["Name"])) or (len(player_input.split(" ")) == 1):
                     current_battle[enemy] = attack(game_info, current_battle[enemy])
                     has_attacked = True
                     if current_battle[enemy]["HP"] <= 0:
+                        game_info['Player']['Kills'] += 1
                         del(current_battle[enemy])
                     break
             if not has_attacked:
@@ -109,6 +118,9 @@ def battle(game_info, current_battle, player_position):
                 for key, value in current_battle[enemy].items():
                     if key != "TEXT":
                         print(key + ": " + str(value))
+        if has_attacked:
+            for enemy in current_battle:
+                attacked(game_info, current_battle[enemy])
     game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = []
 
 
@@ -135,7 +147,18 @@ def attack(game_info, enemy):
 
 
 def attacked(game_info, enemy):
-    return game_info
+    random_number = random.randrange(0, 100)
+    if random_number >= 20:
+        damage = math.ceil((enemy["Atk"] * 5) * (random_number / 100))
+        damage -= game_info["Player"]["Def"]
+        if damage <= 0:
+            print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKDEF"]))
+            return enemy
+
+        game_info["Player"]["HP"] -= damage
+        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKHIT"]).replace("!DMG", str(damage)))
+    else:
+        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKMISS"]))
 
 
 def interperet_input(input, in_battle, game_info):
@@ -149,6 +172,22 @@ def interperet_input(input, in_battle, game_info):
                 return key
 
 
+def regenerate_health(game_info):
+    if game_info["Player"]["HP"] < 50:
+        game_info["Player"]["HP"] += 5
+        if game_info["Player"]["HP"] > 50:
+            game_info["Player"]["HP"] = 50
+
+
+def die(game_info):
+    print(game_info["Art"]["939"])
+    print(f"{game_info['Player']['Name']} has died.")
+    time.sleep(2)
+    print(f"You made it to level {game_info['Player']['Level']}, and killed {game_info['Player']['Kills']} enemies.")
+    time.sleep(2)
+    quit()
+
+
 def main():
     player_position = [24, 17]
     game_info = load_game_info()
@@ -157,7 +196,7 @@ def main():
     while True:
         print_map(game_map, player_position, game_info)
         initiate_battle(game_info, player_position)
-        player_input = input("What would you like to do?: ")
+        player_input = input(f"({game_info['Player']['HP']}HP) What would you like to do?: ")
         input_type = interperet_input(player_input, False, game_info)
         if input_type != "Error":
             if input_type == "Move":
