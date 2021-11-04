@@ -1,26 +1,55 @@
 {
   "Enemies": {
+    "SCP-TEST": {
+      "Name": "SCP-TEST",
+      "Atk": 999,
+      "Def": 999,
+      "HP": 25,
+      "Speed": 3,
+      "Description": "Testing enemy",
+      "TEXT": {
+        "MISS": ["MISS"],
+        "HIT": ["HIT"],
+        "DEF": ["DEF"]
+      }
+    },
     "SCP-049-2": {
       "Name": "SCP-049-2",
       "Atk": 2,
       "Def": 2,
       "HP": 25,
       "Speed": 3,
-      "Description": "SCP-049-2 instances are reanimated corpses that have been operated on by SCP-049. These instances do not seem to retain any of their prior memories or mental functions, having only basic motor skills and response mechanisms. While these instances are generally inactive, moving very little and in a generally ambulatory fashion, they can become extremely aggressive if provoked, or if directed to by SCP-049. SCP-049-2 instances express active biological functions, though these are vastly different from currently understood human physiology."
+      "Description": "SCP-049-2 instances are reanimated corpses that have been operated on by SCP-049. These instances do not seem to retain any of their prior memories or mental functions, having only basic motor skills and response mechanisms. While these instances are generally inactive, moving very little and in a generally ambulatory fashion, they can become extremely aggressive if provoked, or if directed to by SCP-049. SCP-049-2 instances express active biological functions, though these are vastly different from currently understood human physiology.",
+      "TEXT": {
+        "MISS": ["Your attack missed!"],
+        "HIT": ["You hit the stupid zombie right in the face! It was very satisfying. You dealt !DMG HP!", "You hit SCP-049-2 for !DMG HP!"],
+        "DEF": ["Your attack glanced off of SCP-049-2. Unlucky!"]
+      }
     },
     "SCP-939": {
       "Name": "SCP-939",
       "Atk": 6,
       "Def": 2,
       "HP": 50,
-      "Speed": 0
+      "Speed": 0,
+      "Description": "SCP-939 are endothermic, pack-based predators which display atrophy of various systems similar to troglobitic organisms. The skins of SCP-939 are highly permeable to moisture and translucent red, owing to a compound chemically similar to hemoglobin. SCP-939 average 2.2 meters tall standing upright and weigh an average of 250 kg, though weight is highly variable. Each of their four limbs end in three-fingered claws with a fourth, opposable digit, and are covered in setae which considerably augment climbing ability. Their heads are elongated, devoid of even vestigial eyes or eye sockets, and contain no brain casing. The jaws of SCP-939 are lined with red, faintly luminescent fang-like teeth, similar to those belonging to specimens of the genus Chauliodus, up to 6 cm in length, and encircled by heat-sensitive pit organs. Eye spots, sensitive to light and dark, run the length of their spined dorsal ridges. These spines may be up to 16 cm long and are believed to be sensitive to changes in air pressure and flow.",
+      "TEXT": {
+        "MISS": ["Your attack missed!"],
+        "HIT": ["Your attack hit the dog in leg! it dealt !DMG HP!", "You hit SCP-939 for !DMG HP!"],
+        "DEF": ["Your attack glanced off of SCP-939's tough skin. Unlucky!"]
+      }
     },
     "SCP-966": {
       "Name": "SCP-966",
       "Atk": 5,
       "Def": 1,
       "HP": 25,
-      "Speed": 2
+      "Speed": 2,
+      "TEXT": {
+        "MISS": ["You attack randomly throughout the room, but nothing landed!"],
+        "HIT": ["You swing wildly in the air, and somehow hit something. You dealt !DMG HP!", "You randomly attack around the room. One of them hit SCP-966 for !DMG HP!"],
+        "DEF": ["You attack randomly throughout the room, but nothing landed. Unlucky!"]
+      }
     }
   },
   "Races": {
@@ -54,11 +83,11 @@
   },
   "Player": {
     "Level": 1,
-    "Atk": 0,
-    "Def": 0,
-    "CognitoFortitude": 0,
-    "Speed": 0,
-    "Sneakyness": 0,
+    "Atk": 3,
+    "Def": 2,
+    "CognitoFortitude": 1,
+    "Speed": 5,
+    "Sneakyness": 6,
     "Race": "D-Class",
     "Name": "D-9341",
     "Inventory": {

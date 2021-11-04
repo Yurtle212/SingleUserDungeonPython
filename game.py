@@ -6,6 +6,7 @@ All of your code must go in this file.
 """
 import json
 import random
+import math
 
 
 def load_game_info():
@@ -78,23 +79,26 @@ def initiate_battle(game_info, player_position):
     enemies = game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"]
     current_battle = {}
     for enemy in range(len(enemies)):
-        current_battle[enemy] = game_info["Enemies"][enemies[enemy]]
+        current_battle[enemy] = game_info["Enemies"][enemies[enemy]].copy()
 
         if current_battle[enemy]["Speed"] > game_info["Player"]["Speed"]:
-            game_info = attacked(game_info, enemy)
-    battle(game_info, enemies, current_battle)
+            attacked(game_info, enemy)
+    battle(game_info, current_battle, player_position)
 
 
-def battle(game_info, enemies, current_battle):
-    while len(enemies) > 0:
-        player_input = input("What would you like to do next?: ")
+def battle(game_info, current_battle, player_position):
+    while len(current_battle) > 0:
+        player_input = input("(BATTLE): What would you like to do next?: ")
         input_type = interperet_input(player_input, True, game_info)
         if input_type == "Attack":
             has_attacked = False
             for enemy in current_battle:
-                if (len(player_input.split(" ")) > 0) and (player_input.split(" ")[1] in current_battle[enemy]["Name"]):
-                    current_battle[enemy] = attack(game_info, enemy)
+                if ((len(player_input.split(" ")) > 1) and (player_input.split(" ")[1] in current_battle[enemy]["Name"])) or (len(player_input.split(" ")) == 1):
+                    current_battle[enemy] = attack(game_info, current_battle[enemy])
                     has_attacked = True
+                    if current_battle[enemy]["HP"] <= 0:
+                        del(current_battle[enemy])
+                    break
             if not has_attacked:
                 print("I can't find that enemy.")
         elif input_type == "Inventory":
@@ -103,7 +107,9 @@ def battle(game_info, enemies, current_battle):
             for enemy in current_battle:
                 print("\n")
                 for key, value in current_battle[enemy].items():
-                    print(key + ": " + str(value))
+                    if key != "TEXT":
+                        print(key + ": " + str(value))
+    game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = []
 
 
 def display_inventory(game_info):
@@ -113,6 +119,18 @@ def display_inventory(game_info):
 
 
 def attack(game_info, enemy):
+    random_number = random.randrange(0, 100)
+    if random_number >= 20:
+        damage = math.ceil((game_info["Player"]["Atk"] * 5) * (random_number/100))
+        damage -= enemy["Def"]
+        if damage <= 0:
+            print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["DEF"]))
+            return enemy
+
+        enemy["HP"] -= damage
+        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["HIT"]).replace("!DMG", str(damage)))
+    else:
+        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["MISS"]))
     return enemy
 
 
