@@ -13,14 +13,16 @@
         "DEF": ["Your attack glanced off of SCP-049-2. Unlucky!"],
         "ATKMISS": ["The zombie tried to bite you but missed!", "The SCP-049-2 swung at you, but it missed."],
         "ATKHIT": ["The zombie bit you on the arm! It did !DMG HP. Luckily it's not contagious!", "The SCP-049-2 hit you for !DMG HP!"],
-        "ATKDEF": ["The zombie tried to bite you, but it didn't pierce your skin!", "The SCP-049-2 swung at you, but your armour deflected it!"]
-      }
+        "ATKDEF": ["The zombie tried to bite you, but it didn't pierce your skin!", "The SCP-049-2 swung at you, but your armour deflected it!"],
+        "DEATH": ["You killed the SCP-049-2! You gained 10 exp!"]
+      },
+      "Exp": 10
     },
     "SCP-939": {
       "Name": "SCP-939",
-      "Atk": 6,
-      "Def": 4,
-      "HP": 50,
+      "Atk": 4,
+      "Def": 3,
+      "HP": 30,
       "Speed": 0,
       "Description": "SCP-939 are endothermic, pack-based predators which display atrophy of various systems similar to troglobitic organisms. The skins of SCP-939 are highly permeable to moisture and translucent red, owing to a compound chemically similar to hemoglobin. SCP-939 average 2.2 meters tall standing upright and weigh an average of 250 kg, though weight is highly variable. Each of their four limbs end in three-fingered claws with a fourth, opposable digit, and are covered in setae which considerably augment climbing ability. Their heads are elongated, devoid of even vestigial eyes or eye sockets, and contain no brain casing. The jaws of SCP-939 are lined with red, faintly luminescent fang-like teeth, similar to those belonging to specimens of the genus Chauliodus, up to 6 cm in length, and encircled by heat-sensitive pit organs. Eye spots, sensitive to light and dark, run the length of their spined dorsal ridges. These spines may be up to 16 cm long and are believed to be sensitive to changes in air pressure and flow.",
       "TEXT": {
@@ -29,8 +31,10 @@
         "DEF": ["Your attack glanced off of SCP-939's tough skin. Unlucky!"],
         "ATKMISS": ["The SCP-939 tried to bite you but missed!"],
         "ATKHIT": ["The SCP-939 bit you on the leg! It did !DMG HP. Ouch!", "The SCP-939 attacked you for !DMG HP!"],
-        "ATKDEF": ["The SCP-939 tried to bite you, but it didn't pierce your skin!"]
-      }
+        "ATKDEF": ["The SCP-939 tried to bite you, but it didn't pierce your skin!"],
+        "DEATH": ["You killed the SCP-939! You gained 30 exp!"]
+      },
+      "Exp": 30
     },
     "SCP-966": {
       "Name": "SCP-966",
@@ -45,11 +49,13 @@
         "DEF": ["You attack randomly throughout the room, but nothing landed."],
         "ATKMISS": ["You felt the air whoosh past you. The SCP-966 must've just barely missed!"],
         "ATKHIT": ["You feel a huge gash appear on your chest! The SCP-966 must've hit you! It did !DMG HP."],
-        "ATKDEF": ["You felt something glance off your armour. Must've been the SCP-966!"]
-      }
+        "ATKDEF": ["You felt something glance off your armour. Must've been the SCP-966!"],
+        "DEATH": ["You killed the SCP-966-2! You gained 20 exp!"]
+      },
+      "Exp": 20
     }
   },
-  "Races": {
+  "Classes": {
     "D-Class": {
       "Atk": 3,
       "Def": 2,
@@ -85,16 +91,82 @@
     "CognitoFortitude": 1,
     "Speed": 5,
     "Sneakyness": 6,
-    "HP": 50,
-    "Race": "D-Class",
+    "HP": 100,
+    "MaxHP": 100,
+    "Class": "D-Class",
     "Name": "D-9341",
     "Kills": 0,
+    "Exp": 0,
     "Inventory": {
 
+    },
+    "Equipped": {
+      "Consumable": "",
+      "Hand": "",
+      "Body": ""
     }
   },
   "Items": {
-
+    "Medkit": {
+      "Description": "A portable first aid kit.",
+      "Effect": "Heals 25HP.",
+      "HP": 25,
+      "Type": "Health",
+      "Slot": "Consumable",
+      "Unique": "False",
+      "Used": "False",
+      "UseText": ["You used the medkit. It healed 25HP!"],
+      "TakeText": "You stuffed the first aid kit into your (surprisingly small) pocket.",
+      "Room Description": ["On the floor, you see a first-aid kit!", "There's a first-aid kit on the floor", "There's a first-aid kit hanging on the wall."]
+    },
+    "SCP-500": {
+      "Description": "When taken orally, effectively cures the subject of all diseases within two hours, exact time depending on the severity and amount of the subject's conditions. Despite extensive trials, all attempts at synthesizing more of what is thought to be the active ingredient of the pills have been unsuccessful.",
+      "Effect": "Heals you to max health",
+      "HP": 99999999,
+      "Type": "Health",
+      "Slot": "Consumable",
+      "Unique": "True",
+      "Used": "False",
+      "UseText": ["You took the pill you found on the floor. Your health was maxed out!"],
+      "TakeText": "You picked up the pill from the (very sanitary I'm sure) floor and put it into your pocket.",
+      "Room Description": ["On the floor, there's a tiny little red pill.", "For some reason, there's a little red pill on the floor."]
+    },
+    "Knife": {
+      "Description": "Looks like a pocket knife someone dropped while they were running.",
+      "Effect": "Gives you +5ATK",
+      "ATK": 5,
+      "Type": "Weapon",
+      "Slot": "Hand",
+      "Unique": "False",
+      "Used": "False",
+      "UseText": ["You equipped your knife."],
+      "TakeText": "You picked up the knife and put it in your pocket.",
+      "Room Description": ["There's a knife on the ground.", "You notice a knife laying on the ground."]
+    },
+    "MP5": {
+      "Description": "This is a standard issue mp5 used by the facility guards. One of them must've dropped it when they were running away from something.",
+      "Effect": "Gives you +10ATK",
+      "ATK": 10,
+      "Type": "Weapon",
+      "Slot": "Hand",
+      "Unique": "True",
+      "Used": "False",
+      "UseText": ["You equipped your MP5."],
+      "TakeText": "You picked up the MP5 and somehow put it into your pocket.",
+      "Room Description": ["It looks like there's a gun on the floor!", "There's a gun laying on the floor.", "Somebody dropped their gun in here."]
+    },
+    "Bullet proof vest": {
+      "Description": "It's a bullet proof vest. Can probably protect you from some hits.",
+      "Effect": "Gives you +10DEF",
+      "DEF": 10,
+      "Type": "Armour",
+      "Slot": "Body",
+      "Unique": "True",
+      "Used": "False",
+      "UseText": ["You put on the bullet proof vest."],
+      "TakeText": "You picked up the bullet proof vest and somehow shoved it into your pocket.",
+      "Room Description": ["There's a bullet proof vest hanging on the wall!", "There's something that looks a lot like a bullet proof vest just laying on the floor."]
+    }
   },
   "Map": {
     "Pieces": {
@@ -197,11 +269,7 @@
     "Game Map": {
 
     },
-    "Descriptions": {
-      "Empty": ["This room is empty. The lights are flickering...", "This room is empty.", "There is nothing in this room."],
-      "Loot": ["You enter the room and notice there's XXXX on the floor", "You enter the room and notice there's something on a table..."],
-      "Enemy": ["You enter the room and notice there's XXXX in the corner!", "As soon as you enter, XXXX attacks you!"]
-    }
+    "Descriptions": ["This room is pretty dull.", "There's not much going on with this room.", "For some reason, in this room it's colder than all the others.", "There's a strange mist hanging in this room", "This room is very mossy."]
   },
   "Colours": {
     "Normal": "0",
@@ -215,15 +283,14 @@
     "MapView": {
       "Move": ["north", "south", "east", "west", "n", "s", "e", "w"],
       "Inventory": ["inventory", "inv"],
-      "Discard": ["discard", "garbage", "throw"],
       "Use": ["use", "throw"],
-      "Info": ["check", "info"],
-      "Take": ["take", "grab", "get"]
+      "Info": ["check", "info", "stats"],
+      "Take Item": ["take", "grab", "get"]
     },
     "Battle": {
       "Attack": ["attack", "shoot"],
       "Inventory": ["inventory", "inv"],
-      "Use": ["use", "throw"],
+      "Use Item": ["use", "throw"],
       "Info": ["check", "info"],
       "Flee": ["flee", "run", "escape"]
     }
