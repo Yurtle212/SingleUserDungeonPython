@@ -8,6 +8,7 @@ import json
 import random
 import math
 import time
+import itertools
 
 
 def load_game_info():
@@ -87,34 +88,26 @@ def check_level(game_map, new_position, game_info):
             return True
     else:
         return True
+    print(get_message("Messages.LEVELMESSAGE", game_info))
     return False
 
 
 def move_player(game_map, player_position, move_direction, game_info, last_player_position):
     possible_directions = game_info["Map"]["Pieces"][game_map[player_position[0]][player_position[1]]]["Dir"]
-    level_message = 'You swipe your keycard to enter the room, but it says you need a higher level of access to pass.'
     if move_direction in possible_directions:
         last_player_position = player_position.copy()
         if move_direction.lower() == "north" or move_direction.lower() == "n":
             if check_level(game_map, [player_position[0] - 1, player_position[1]], game_info):
                 player_position[0] = player_position[0] - 1
-            else:
-                print(level_message)
         elif move_direction.lower() == "south" or move_direction.lower() == "s":
             if check_level(game_map, [player_position[0] + 1, player_position[1]], game_info):
                 player_position[0] = player_position[0] + 1
-            else:
-                print(level_message)
         elif move_direction.lower() == "east" or move_direction.lower() == "e":
             if check_level(game_map, [player_position[0], player_position[1] + 1], game_info):
                 player_position[1] = player_position[1] + 1
-            else:
-                print(level_message)
         elif move_direction.lower() == "west" or move_direction.lower() == "w":
             if check_level(game_map, [player_position[0], player_position[1] - 1], game_info):
                 player_position[1] = player_position[1] - 1
-            else:
-                print(level_message)
         regenerate_health(game_info)
     return player_position, last_player_position
 
@@ -146,8 +139,9 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
             time.sleep(1)
             die(game_info)
         has_attacked = False
-        player_input = input(f"({game_info['Player']['HP']}HP) (BATTLE): What would you like to do next?: ")
-        input_type = interperet_input(player_input, True, game_info)
+        numbered_input = get_possible_moves(game_info, "Battle", player_position, current_battle)
+        player_input = input(random.choice(game_info["Messages"]["BATTLEPROMPT"]).replace("!HEALTH", str(game_info["Player"]["HP"])))
+        input_type, player_input = interperet_input(player_input, True, game_info, numbered_input)
         if input_type == "Attack":
             for enemy in current_battle:
                 if ((len(player_input.split(" ")) > 1) and (player_input.split(" ")[1] in current_battle[enemy]["Name"])) or (len(player_input.split(" ")) == 1):
@@ -156,9 +150,8 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
                     if current_battle[enemy]["HP"] <= 0:
                         game_info['Player']['Kills'] += 1
                         game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
-                        print(random.choice(current_battle[enemy]['TEXT']['DEATH']))
-                        if (game_info['Player']['Exp'] > 50 and game_info['Player']['Level'] == 1) or (game_info['Player']['Exp'] > 100 and game_info['Player']['Level'] == 2):
-                            level_up(game_info, current_battle[enemy])
+                        print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.DEATH', game_info))
+                        level_up(game_info, current_battle[enemy])
                         del(current_battle[enemy])
                     break
             if not has_attacked:
@@ -172,24 +165,40 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
                     if key != "TEXT" and key != "Exp":
                         print(key + ": " + str(value))
         elif input_type == "Flee":
-            print_map(game_map, last_player_position, game_info)
+            flee_from_battle(current_battle, game_info)
             game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = current_battle
             return last_player_position
-        elif input_type == "Use Item":
+        elif input_type == "Use":
             item = player_input.split(" ")[1]
             use_item(game_info, item)
         if has_attacked:
-            for enemy in current_battle:
-                attacked(game_info, current_battle[enemy])
+            for enemy in current_battle.copy():
+                if random.randrange(0, 100) < 25:
+                    print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
+                    time.sleep(1)
+                    game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
+                    level_up(game_info, current_battle[enemy])
+                    del(current_battle[enemy])
+                    continue
+                attacked(game_info, current_battle[enemy], False)
 
     game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = []
     return player_position
 
 
+def flee_from_battle(current_battle, game_info):
+    for enemy in current_battle:
+        if random.randrange(0, 100) < 20:
+            attacked(game_info, current_battle[enemy], True)
+            time.sleep(1)
+
+
 def display_inventory(game_info):
-    print("Item | Count")
+    print("\nItem | Count")
     for item, count in game_info["Player"]["Inventory"].items():
         print(item, count)
+    print('\n')
+    time.sleep(1)
 
 
 def attack(game_info, enemy):
@@ -199,41 +208,56 @@ def attack(game_info, enemy):
         damage = math.ceil((game_info["Player"]["Atk"] * 5) * (random_number/100))
         damage -= enemy["Def"]
         if damage <= 0:
-            print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["DEF"]))
+            print(get_message(f'Enemies.{enemy["Name"]}.TEXT.DEF', game_info))
             return enemy
 
         enemy["HP"] -= damage
-        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["HIT"]).replace("!DMG", str(damage)))
+        print(get_message(f'Enemies.{enemy["Name"]}.TEXT.HIT', game_info).replace("!DMG", str(damage)))
     else:
-        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["MISS"]))
+        print(get_message(f'Enemies.{enemy["Name"]}.TEXT.MISS', game_info))
     return enemy
 
 
-def attacked(game_info, enemy):
+def attacked(game_info, enemy, player_fleeing):
     time.sleep(1)
     random_number = random.randrange(0, 100)
     if random_number >= 20:
         damage = math.ceil((enemy["Atk"] * 5) * (random_number / 100))
         damage -= game_info["Player"]["Def"]
         if damage <= 0:
-            print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKDEF"]))
+            print(get_message(f"Enemies.{enemy['Name']}.TEXT.ATKDEF", game_info))
             return enemy
-
         game_info["Player"]["HP"] -= damage
-        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKHIT"]).replace("!DMG", str(damage)))
+        if player_fleeing:
+            print(get_message(f"Enemies.{enemy['Name']}.TEXT.FLEEATK", game_info).replace("!DMG", str(damage)))
+        else:
+            print(get_message(f"Enemies.{enemy['Name']}.TEXT.ATKHIT", game_info).replace("!DMG", str(damage)))
     else:
-        print(random.choice(game_info["Enemies"][enemy["Name"]]["TEXT"]["ATKMISS"]))
+        print(get_message(f"Enemies.{enemy['Name']}.TEXT.ATKMISS", game_info))
 
 
-def interperet_input(input, in_battle, game_info):
+def interperet_input(player_input, in_battle, game_info, numbered_input):
+    if player_input.isnumeric():
+        numeric_inputs = list_of_tuples_to_dictionary(numbered_input)
+        if player_input in numeric_inputs:
+            player_input = list_of_tuples_to_dictionary(numbered_input)[player_input]
+        player_input = player_input[0].lower() + player_input[1:]
     if in_battle:
         for key, value in game_info["Inputs"]["Battle"].items():
-            if input.split(" ")[0] in value:
-                return key
+            if player_input.split(" ")[0] in value:
+                return key, player_input
     else:
         for key, value in game_info["Inputs"]["MapView"].items():
-            if input.split(" ")[0] in value:
-                return key
+            if player_input.split(" ")[0] in value:
+                return key, player_input
+    return None, player_input
+
+
+def list_of_tuples_to_dictionary(input_list):
+    dictionary = {}
+    for pair in input_list:
+        dictionary[pair[0]] = pair[1]
+    return dictionary
 
 
 def regenerate_health(game_info):
@@ -244,9 +268,10 @@ def regenerate_health(game_info):
 
 
 def level_up(game_info, enemy):
-    game_info["Player"]["Level"] += 1
-    print(f"When you killed {enemy['Name']}, it dropped a level {game_info['Player']['Level']} keycard! You can now progress to the next section of the facility!")
-    time.sleep(2)
+    if (game_info['Player']['Exp'] > 50 and game_info['Player']['Level'] == 1) or (game_info['Player']['Exp'] > 100 and game_info['Player']['Level'] == 2):
+        game_info["Player"]["Level"] += 1
+        print(get_message("Messages.LEVELUP", game_info).replace("!ENEMY", enemy["Name"]))
+        time.sleep(2)
 
 
 def show_player_stats(game_info):
@@ -258,11 +283,11 @@ def show_player_stats(game_info):
 
 
 def die(game_info):
-    print(game_info["Art"]["Death"])
+    print(get_message("Art.Death", game_info))
     time.sleep(1)
-    print(f"{game_info['Player']['Name']} has died.")
+    print(get_message("Messages.DEATH_1", game_info))
     time.sleep(2)
-    print(f"You made it to level {game_info['Player']['Level']}, and killed {game_info['Player']['Kills']} enemies.")
+    print(get_message("Messages.DEATH_2", game_info))
     time.sleep(2)
     quit()
 
@@ -270,7 +295,7 @@ def die(game_info):
 def grab_item(game_info, player_position):
     item = game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Item"]
     game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Item"] = ''
-    print(game_info["Items"][item]["TakeText"])
+    print(get_message(f"Items.{item}.TakeText", game_info))
     add_to_inventory(game_info, item)
     time.sleep(1)
 
@@ -283,60 +308,132 @@ def add_to_inventory(game_info, item):
 
 
 def use_item(game_info, item):
-    print(game_info["Player"]["Inventory"])
     if item in game_info["Player"]["Inventory"]:
         if "HP" in game_info["Items"][item]:
-            print(random.choice(game_info["Items"][item]["UseText"]))
+            print(get_message(f"Items.{item}.UseText", game_info))
             game_info["Player"]["HP"] += int(game_info["Items"][item]["HP"])
             if game_info["Player"]["HP"] > game_info["Player"]["MaxHP"]:
                 game_info["Player"]["HP"] = game_info["Player"]["MaxHP"]
         elif "ATK" in game_info["Items"][item]:
-            if game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] != "":
-                print(f'You put your {game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]]} back in your pocket.')
-                add_to_inventory(game_info, item)
-            game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = game_info["Items"][item]
-            print(random.choice(game_info["Items"][item]["UseText"]))
-            new_atk = game_info["Classes"][game_info["Player"]["Class"]]["Atk"] + int(game_info["Items"][item]["ATK"])
-            game_info["Player"]["Atk"] = new_atk
+            equip_item(game_info, item, "ATK")
         elif "DEF" in game_info["Items"][item]:
-            if game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] != "":
-                print(f'You put your {game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]]} back in your pocket.')
-                add_to_inventory(game_info, item)
-            game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = game_info["Items"][item]
-            print(random.choice(game_info["Items"][item]["UseText"]))
-            new_atk = game_info["Classes"][game_info["Player"]["Class"]]["Atk"] + int(game_info["Items"][item]["ATK"])
-            game_info["Player"]["Atk"] = new_atk
-
+            equip_item(game_info, item, "DEF")
         game_info["Player"]["Inventory"][item] -= 1
         if game_info["Player"]["Inventory"][item] <= 0:
             del(game_info["Player"]["Inventory"][item])
     else:
-        print("You don't have one of those. (Case sensitive)")
+        print(get_message("Messages.INVALIDITEM", game_info))
+
+
+def equip_item(game_info, item, stat):
+    if game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] != "":
+        print(get_message("Messages.UNEQUIP", game_info)).replace("!ITEM", game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]])
+        add_to_inventory(game_info, item)
+    game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = game_info["Items"][item]
+    print(get_message(f"Items.{item}.UseText", game_info))
+    new_val = game_info["Classes"][game_info["Player"]["Class"]][stat] + int(game_info["Items"][item][stat])
+    game_info["Player"][stat] = new_val
+
+
+def get_message(path, game_info):
+    current_item = game_info
+    for turn in path.split("."):
+        current_item = current_item[turn]
+    if isinstance(current_item, list):
+        message = random.choice(current_item)
+        message = replace_message(message, game_info)
+        return message
+    return current_item
+
+
+def replace_message(message, game_info):
+    for key, value in game_info["Replacements"].items():
+        message = message.replace(key, str(get_message(value, game_info)))
+    return message
+
+
+def get_possible_moves(game_info, context, player_position, enemies=[]):
+    output_list = []
+    ignore = ["Move", "Use", "Take"]
+    move_number = itertools.count()
+    possible_inputs = game_info["Inputs"][context]
+    for move in possible_inputs:
+        if move not in ignore:
+            output_list.append((str(next(move_number)), move))
+    for item in get_usable_items(game_info):
+        output_list.append((str(next(move_number)), item))
+    if context == "MapView" and get_grabbable_item(game_info, player_position) != '':
+        output_list.append((str(next(move_number)), get_grabbable_item(game_info, player_position)))
+    elif context == "Battle":
+        output_list.extend(get_attackable_enemies(game_info, enemies, move_number))
+    print('\n' + '\n'.join(map(': '.join, output_list)))
+    return output_list
+
+
+def get_attackable_enemies(game_info, enemies, iterator):
+    all_enemies = []
+    for enemy in enemies:
+        all_enemies.append((str(next(iterator)), f'Attack {enemies[enemy]["Name"]}'))
+    return all_enemies
+
+
+def get_usable_items(game_info):
+    usable_items = []
+    for item in game_info["Player"]["Inventory"]:
+        usable_items.append(f"Use {item}")
+    return usable_items
+
+
+def get_grabbable_item(game_info, player_position):
+    item = game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Item"]
+    if item != '':
+        return f"Take {item}"
+    return ''
+
+
+def choose_class(game_info):
+    while True:
+        iterable = itertools.count()
+        for possible_class in game_info["Classes"]:
+            print(f"{next(iterable)}: {possible_class}")
+        player_class = input(get_message("Messages.WELCOME_3", game_info))
 
 
 def main():
-    player_position = [24, 17]
-    last_player_position = [24, 16]
     game_info = load_game_info()
     game_map = load_game_map()
+
+    print(get_message("Messages.WELCOME_1", game_info))
+    time.sleep(2)
+    game_info["Player"]["Name"] = input(get_message("Messages.WELCOME_2", game_info))
+    time.sleep(2)
+    choose_class(game_info)
+    time.sleep(2)
+
+    player_position = [24, 17]
+    last_player_position = [24, 16]
     game_info = populate_game_map(game_info, game_map, player_position)
     while True:
         player_position = initiate_battle(game_info, player_position, last_player_position, game_map)
         print_map(game_map, player_position, game_info)
-        player_input = input(f"({game_info['Player']['HP']}HP) What would you like to do?: ")
-        input_type = interperet_input(player_input, False, game_info)
+        numbered_input = get_possible_moves(game_info, "MapView", player_position)
+        player_input = input(get_message("Messages.MAPPROMPT", game_info))
+        input_type, player_input = interperet_input(player_input, False, game_info, numbered_input)
         if input_type != "Error":
             if input_type == "Move":
                 player_position, last_player_position = move_player(game_map, player_position, player_input, game_info, last_player_position)
             elif input_type == "Info":
                 show_player_stats(game_info)
-            elif input_type == "Take Item":
+            elif input_type == "Take":
                 grab_item(game_info, player_position)
             elif input_type == "Inventory":
                 display_inventory(game_info)
+            elif input_type == "Use":
+                item = player_input.split(" ")[1]
+                use_item(game_info, item)
+                time.sleep(1)
         else:
-            print("I don't know what you mean.")
-
+            print(get_message("Messages.INVALIDCOMMAND"), game_info)
 
 
 if __name__ == "__main__":

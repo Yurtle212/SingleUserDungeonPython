@@ -14,7 +14,9 @@
         "ATKMISS": ["The zombie tried to bite you but missed!", "The SCP-049-2 swung at you, but it missed."],
         "ATKHIT": ["The zombie bit you on the arm! It did !DMG HP. Luckily it's not contagious!", "The SCP-049-2 hit you for !DMG HP!"],
         "ATKDEF": ["The zombie tried to bite you, but it didn't pierce your skin!", "The SCP-049-2 swung at you, but your armour deflected it!"],
-        "DEATH": ["You killed the SCP-049-2! You gained 10 exp!"]
+        "DEATH": ["You killed the SCP-049-2! You gained 10 exp!"],
+        "FLEE": ["The SCP-049-2 got bored and walked away while you were fighting. You gained 10 exp!"],
+        "FLEEATK": ["When you turned to run away, the SCP-049-2 managed to give you a good haymaker to the back of the head. It did !DMG HP."]
       },
       "Exp": 10
     },
@@ -32,7 +34,9 @@
         "ATKMISS": ["The SCP-939 tried to bite you but missed!"],
         "ATKHIT": ["The SCP-939 bit you on the leg! It did !DMG HP. Ouch!", "The SCP-939 attacked you for !DMG HP!"],
         "ATKDEF": ["The SCP-939 tried to bite you, but it didn't pierce your skin!"],
-        "DEATH": ["You killed the SCP-939! You gained 30 exp!"]
+        "DEATH": ["You killed the SCP-939! You gained 30 exp!"],
+        "FLEE": ["The SCP-939 got scared and ran away. You gained 30 exp!"],
+        "FLEEATK": ["While you were running for your life, the 939 bit you on the ankle. It did !DMG HP"]
       },
       "Exp": 30
     },
@@ -50,7 +54,9 @@
         "ATKMISS": ["You felt the air whoosh past you. The SCP-966 must've just barely missed!"],
         "ATKHIT": ["You feel a huge gash appear on your chest! The SCP-966 must've hit you! It did !DMG HP."],
         "ATKDEF": ["You felt something glance off your armour. Must've been the SCP-966!"],
-        "DEATH": ["You killed the SCP-966-2! You gained 20 exp!"]
+        "DEATH": ["You killed the SCP-966-2! You gained 20 exp!"],
+        "FLEE": ["For some reason, you don't feel a presence in the room anymore. The SCP-966 must've ran away for some reason. You got 20 exp!"],
+        "FLEEATK": ["While you were running for the exit, you felt a claw rip your back open. It did !DMG HP."]
       },
       "Exp": 20
     }
@@ -59,28 +65,33 @@
     "D-Class": {
       "Atk": 3,
       "Def": 2,
-      "CognitoFortitude": 1,
       "Speed": 5,
       "Sneakyness": 6,
-      "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects.",
+      "Description": "Class-D personnel are the lowest ranked personnel in the SCP Foundation. They are usually death row inmates who have been given a deal to escape death by working at the foundation for a month. They are treated like prisoners and are usually used as test subjects. (HARD)",
       "Starting Pos": [24, 17]
     },
     "Researcher": {
       "Atk": 2,
-      "Def": 2,
-      "CognitoFortitude": 5,
+      "Def": 4,
       "Speed": 3,
       "Sneakyness": 3,
-      "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength.",
+      "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength. (MEDIUM)",
       "Starting Pos": [20, 6]
     },
     "MTF Agent": {
       "Atk": 6,
       "Def": 5,
-      "CognitoFortitude": 3,
-      "Speed": 2,
+      "Speed": 1,
       "Sneakyness": 1,
-      "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky.",
+      "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky. (EASY)",
+      "Starting Pos": [20, 6]
+    },
+    "05-Council Member": {
+      "Atk": 15,
+      "Def": 6,
+      "Speed": 5,
+      "Sneakyness": 5,
+      "Description": "The O5-Council is the mysterious council that leads the foundation. Nobody really knows much about who they are or what they can do. (VERY EASY)",
       "Starting Pos": [20, 6]
     }
   },
@@ -88,7 +99,6 @@
     "Level": 1,
     "Atk": 3,
     "Def": 2,
-    "CognitoFortitude": 1,
     "Speed": 5,
     "Sneakyness": 6,
     "HP": 100,
@@ -283,19 +293,42 @@
     "MapView": {
       "Move": ["north", "south", "east", "west", "n", "s", "e", "w"],
       "Inventory": ["inventory", "inv"],
-      "Use": ["use", "throw"],
+      "Use": ["use"],
       "Info": ["check", "info", "stats"],
-      "Take Item": ["take", "grab", "get"]
+      "Take": ["take", "grab", "get"]
     },
     "Battle": {
-      "Attack": ["attack", "shoot"],
+      "Attack": ["attack", "hit", "kill"],
       "Inventory": ["inventory", "inv"],
-      "Use Item": ["use", "throw"],
+      "Use": ["use"],
       "Info": ["check", "info"],
       "Flee": ["flee", "run", "escape"]
     }
   },
+  "Messages": {
+    "MAPPROMPT": ["(!HEALTHHP) What would you like to do?: "],
+    "BATTLEPROMPT": ["(!HEALTHHP) (BATTLE): What would you like to do next?: "],
+    "LEVELUP": ["When you killed !ENEMY, it dropped a level !LEVEL keycard! You can now progress to the next section of the facility!"],
+    "INVALIDCOMMAND": ["I don't know what you mean."],
+    "INVALIDITEM": ["You don't have one of those. (Case Sensitive)"],
+    "DEATH_1": ["!NAME has died."],
+    "DEATH_2": ["You made it to level !LEVEL, and killed !KILLS enemies."],
+    "UNEQUIP": ["You put your !ITEM back in your pocket."],
+    "INVALIDENEMY": ["I don't see one of those here.", "I can't find that enemy."],
+    "LEVELMESSAGE": ["You swipe your keycard to enter the room, but it says you need a higher level of access to pass."],
+    "WELCOME_1": ["Welcome to Site-19! This is the place where we keep our most dangerous SCPs."],
+    "WELCOME_2": ["So, what's your name? "],
+    "WELCOME_3": ["Welcome to the facility !NAME. So, what class are you here? (Choose one to see their stats) "],
+    "CONFIRMATION": ["Do you want to choose this class? (y/n) "]
+  },
   "Art": {
     "Death": "           ______\n        .-\"      \"-.\n       /            \\\n      |              |\n      |,  .-.  .-.  ,|\n      | )(__/  \\__)( |\n      |/     /\\     \\|\n      (_     ^^     _)\n       \\__|IIIIII|__/\n        | \\IIIIII/ |\n        \\          /\n         `--------`"
+  },
+  "Replacements": {
+    "!HEALTH": "Player.HP",
+    "!LEVEL": "Player.Level",
+    "!KILLS": "Player.Kills",
+    "!EXP": "Player.Exp",
+    "!NAME": "Player.Name"
   }
 }
