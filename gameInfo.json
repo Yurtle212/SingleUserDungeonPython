@@ -18,7 +18,8 @@
         "FLEE": ["The SCP-049-2 got bored and walked away while you were fighting. You gained 10 exp!"],
         "FLEEATK": ["When you turned to run away, the SCP-049-2 managed to give you a good haymaker to the back of the head. It did !DMG HP."]
       },
-      "Exp": 10
+      "Exp": 10,
+      "Vengeful": "False"
     },
     "SCP-939": {
       "Name": "SCP-939",
@@ -38,7 +39,8 @@
         "FLEE": ["The SCP-939 got scared and ran away. You gained 30 exp!"],
         "FLEEATK": ["While you were running for your life, the 939 bit you on the ankle. It did !DMG HP"]
       },
-      "Exp": 30
+      "Exp": 25,
+      "Vengeful": "False"
     },
     "SCP-966": {
       "Name": "SCP-966",
@@ -46,7 +48,7 @@
       "Def": 4,
       "HP": 25,
       "Speed": 2,
-      "Description": "This applies to all of SCP-966's tissues. SCP-966 are predatory creatures that resemble hairless, digitigrade humans, possessing an elongated face with a mouth lined with needle-like teeth. On each hand, they have five claws that can be up to 20 cm long. Although sharp, these are easily broken, making them unfit for combat. SCP-966's height ranges from 1.4 to 1.6 meters, and they can reach up to 30 kg in weight. SCP-966 are visible only at wavelengths ranging from 700 nm to about 900 nm.",
+      "Description": "SCP-966 are visible only at wavelengths ranging from 700 nm to about 900 nm. This applies to all of SCP-966's tissues. SCP-966 are predatory creatures that resemble hairless, digitigrade humans, possessing an elongated face with a mouth lined with needle-like teeth. On each hand, they have five claws that can be up to 20 cm long. Although sharp, these are easily broken, making them unfit for combat. SCP-966's height ranges from 1.4 to 1.6 meters, and they can reach up to 30 kg in weight.",
       "TEXT": {
         "MISS": ["You attack randomly throughout the room, but nothing landed!"],
         "HIT": ["You swing wildly in the air, and somehow hit something. You dealt !DMG HP!", "You randomly attack around the room. One of them hit SCP-966 for !DMG HP!"],
@@ -58,7 +60,71 @@
         "FLEE": ["For some reason, you don't feel a presence in the room anymore. The SCP-966 must've ran away for some reason. You got 20 exp!"],
         "FLEEATK": ["While you were running for the exit, you felt a claw rip your back open. It did !DMG HP."]
       },
-      "Exp": 20
+      "Exp": 20,
+      "Vengeful": "False"
+    },
+    "SCP-1000": {
+      "Name": "SCP-1000",
+      "Atk": 3,
+      "Def": 5,
+      "HP": 40,
+      "Speed": 1,
+      "Description": "SCP-1000 is a nocturnal, omnivorous ape, classified in the Hominini branch along with genera Pan and Homo. Adults range in size from 1.5 to 3 m (5 to 10 ft) in height, and weigh between 90 and 270 kg (200 - 600 lbs). They have grey, brown, black, red, and occasionally white fur. They possess large eyes with good vision, a pronounced brow ridge, and a sagittal crest on the forehead similar to that of the gorilla, but present in both sexes. Their intelligence is on par with that of Pan troglodytes (the common chimpanzee).",
+      "TEXT": {
+        "MISS": ["You lunge at the bigfoot, but it dodges you."],
+        "HIT": ["You lunge at SCP-1000, hitting it on the arm. You dealt !DMG HP!", "You attacked the bigfoot for !DMG HP!"],
+        "DEF": ["You take your best shot at the SCP-1000, but it just glances off it's skin."],
+        "ATKMISS": ["The bigfoot lunges at you, missing you by just a few centimeters."],
+        "ATKHIT": ["SCP-1000 hits you with a mighty blow! It did !DMG HP."],
+        "ATKDEF": ["Bigfoot slips while trying to hit you."],
+        "DEATH": ["You killed the SCP-1000. How do you feel about yourself? You gained 25 exp."],
+        "FLEE": ["The bigfoot, fearing for it's life, runs away. You got 25 exp!"],
+        "FLEEATK": ["You run for the exit, but bigfoot threw something at you. It did !DMG HP."]
+      },
+      "Exp": 25,
+      "Vengeful": "False"
+    },
+    "Chaos Insurgency Soldier": {
+      "Name": "Chaos Insurgency Soldier",
+      "Atk": 5,
+      "Def": 5,
+      "HP": 35,
+      "Speed": 3,
+      "Description": "The Chaos Insurgency (or C.I.) is a major rival organization of the SCP Foundation. The Chaos Insurgency was formed by former agents from the SCP Foundation who defected from the organization and attempted to destroy it.",
+      "TEXT": {
+        "MISS": ["You attack the CI Soldier, but they managed to dodge it!"],
+        "HIT": ["You take your best shot at the CI Soldier. You dealt !DMG HP!", "Your attack hit the CI Soldier for !DMG HP!"],
+        "DEF": ["You take a shot at the soldier, but it glaces off the armour"],
+        "ATKMISS": ["The soldier shoots at you, missing you barely!"],
+        "ATKHIT": ["The CI Soldier punches you! It did !DMG HP.", "The CI Soldier shoots you in the arm! It did !DMG HP!"],
+        "ATKDEF": ["The CI Soldier tries to attack you, but it just glances off of you."],
+        "DEATH": ["You managed to kill the CI Soldier. You're safe, but at what cost? You gained 30 exp!"],
+        "FLEE": ["The CI soldier gets a message on his radio, he quickly runs out of the room. You got 30 exp!"],
+        "FLEEATK": ["While you were running for the exit, the CI Soldier shoots you in the ankle. It did !DMG HP."]
+      },
+      "Exp": 30,
+      "Vengeful": "False"
+    },
+    "SCP-343": {
+      "Name": "SCP-343",
+      "Atk": 99999999999999999999999999999999999999999999999999999999999999999999999999999999,
+      "Def": 99999999999999999999999999999999999999999999999999999999999999999999999999999999,
+      "HP": 99999999999999999999999999999999999999999999999999999999999999999999999999999999,
+      "Speed": 1,
+      "Description": "SCP-343 is a male, seemingly race-less, humanoid in appearance with apparent omnipotence. SCP-343 was discovered walking the streets of Prague and detained after a staff member witnessed him disappear from the streets and reappear on a rooftop. SCP-343, colloquially nicknamed 'God' by the staff here, looks like an older man, although his features are different to each observer.",
+      "TEXT": {
+        "MISS": ["In awe of the presence of god, you completely forgot to attack it."],
+        "HIT": ["Fighting the urge to bow down, you strike god with your hardest blow. You dealt !DMG HP!", "For some reason, you attack god. One of them hit SCP-966 for !DMG HP!"],
+        "DEF": ["...Why did you attack God? I think you made him angry..."],
+        "ATKMISS": ["God just watches you."],
+        "ATKHIT": ["God smites you. It did !DMG HP."],
+        "ATKDEF": ["God just watches you."],
+        "DEATH": ["You somehow killed god! You gained 5 exp!"],
+        "FLEE": ["God got bored and walked away. You got 5 exp!"],
+        "FLEEATK": ["God smiles at you as you run for your life."]
+      },
+      "Exp": 5,
+      "Vengeful": "True"
     }
   },
   "Classes": {
@@ -76,7 +142,7 @@
       "Speed": 3,
       "Sneakyness": 3,
       "Description": "Researchers are people who research SCPs. They mainly research a single SCP at a time. They are very smart and have good mental resistance, but not much physical strength. (MEDIUM)",
-      "Starting Pos": [20, 6]
+      "Starting Pos": [14, 1]
     },
     "MTF Agent": {
       "Atk": 6,
@@ -84,7 +150,7 @@
       "Speed": 1,
       "Sneakyness": 1,
       "Description": "MTF Agents are the elite mobile task force agents of the foundation. They specialize in containing SCPs and maintaining secrecy. They carry weapons and armour, but aren't very sneaky. (EASY)",
-      "Starting Pos": [20, 6]
+      "Starting Pos": [24, 0]
     },
     "05-Council Member": {
       "Atk": 15,
@@ -92,7 +158,7 @@
       "Speed": 5,
       "Sneakyness": 5,
       "Description": "The O5-Council is the mysterious council that leads the foundation. Nobody really knows much about who they are or what they can do. (VERY EASY)",
-      "Starting Pos": [20, 6]
+      "Starting Pos": [14, 17]
     }
   },
   "Player": {
@@ -295,14 +361,17 @@
       "Inventory": ["inventory", "inv"],
       "Use": ["use"],
       "Info": ["check", "info", "stats"],
-      "Take": ["take", "grab", "get"]
+      "Take": ["take", "grab", "get"],
+      "Quit": ["quit", "exit"]
     },
     "Battle": {
       "Attack": ["attack", "hit", "kill"],
       "Inventory": ["inventory", "inv"],
       "Use": ["use"],
       "Info": ["check", "info"],
-      "Flee": ["flee", "run", "escape"]
+      "Flee": ["flee", "run", "escape"],
+      "Pass": ["pass", "nothing"],
+      "Quit": ["quit", "exit"]
     }
   },
   "Messages": {
@@ -319,7 +388,8 @@
     "WELCOME_1": ["Welcome to Site-19! This is the place where we keep our most dangerous SCPs."],
     "WELCOME_2": ["So, what's your name? "],
     "WELCOME_3": ["Welcome to the facility !NAME. So, what class are you here? (Choose one to see their stats) "],
-    "CONFIRMATION": ["Do you want to choose this class? (y/n) "]
+    "CONFIRMATION": ["Do you want to choose this class? (y/N) "],
+    "INTRODUCTION": ["Uh oh, do you hear that alarm? That means there's been a containment breach! It's every man for themselves! *runs away from you*"]
   },
   "Art": {
     "Death": "           ______\n        .-\"      \"-.\n       /            \\\n      |              |\n      |,  .-.  .-.  ,|\n      | )(__/  \\__)( |\n      |/     /\\     \\|\n      (_     ^^     _)\n       \\__|IIIIII|__/\n        | \\IIIIII/ |\n        \\          /\n         `--------`"
