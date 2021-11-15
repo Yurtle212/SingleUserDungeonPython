@@ -14,4 +14,4 @@ Replace this line with your student number
 Replace this line with your GitHub account
 
 ## Any important comments you'd like to make about your work:
-Replace this line with any comments you want to share
+The game should be played through pycharm. In the terminal turn on "soft wrap" if you don't wanna have to scroll sideways.
