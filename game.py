@@ -41,43 +41,72 @@ def populate_game_map(game_info, game_map, player_position):
             game_info["Map"]["Game Map"][row][room]["Piece"] = game_map[row][room]
             game_info["Map"]["Game Map"][row][room]["Enemies"] = []
             game_info["Map"]["Game Map"][row][room]["Description"] = random.choice(game_info["Map"]["Descriptions"])
-            if game_info["Map"]["Pieces"][game_map[row][room]]["Enemies"] == ["Random"] and random.randrange(0, 100) < 20 and [row, room] != player_position:
-                for i in range(random.randrange(1, 3)):
-                    random_enemy = random.choice(list(game_info["Enemies"].keys()))
-                    game_info["Map"]["Game Map"][row][room]["Enemies"].append(random_enemy)
-            game_info["Map"]["Game Map"][row][room]["Item"] = ''
-            if game_info["Map"]["Game Map"][row][room]["Piece"] != "░" and (random.randrange(0, 100) < 20 or [row, room] == player_position):
-                random_item = random.choice(list(game_info["Items"].keys()))
-                if [row, room] == player_position:
-                    game_info["Map"]["Game Map"][row][room]["Item"] = "Medkit"
-                elif game_info["Items"][random_item]["Unique"] != "True" or game_info["Items"][random_item]["Used"] == "False":
-                    game_info["Map"]["Game Map"][row][room]["Item"] = random_item
-                    game_info["Items"][random_item]["Used"] = "True"
+            populate_enemies(game_info, row, room, player_position, game_map)
+            populate_items(game_info, row, room, player_position)
     return game_info
+
+
+def populate_enemies(game_info, row, room, player_position, game_map):
+    random_enemies = game_info["Map"]["Pieces"][game_map[row][room]]["Enemies"] == ["Random"]
+    boss_enemy = game_info["Map"]["Pieces"][game_map[row][room]]["Enemies"] == ["Boss"]
+    if random_enemies and random.randrange(0, 100) < 20 and [row, room] != player_position:
+        for i in range(random.randrange(1, 3)):
+            random_enemy = random.choice(list(game_info["Enemies"].keys()))
+            while game_info["Enemies"][random_enemy]["Boss"] == "True":
+                random_enemy = random.choice(list(game_info["Enemies"].keys()))
+            game_info["Map"]["Game Map"][row][room]["Enemies"].append(random_enemy)
+    elif boss_enemy:
+        boss = random.choice(list(game_info["Enemies"].keys()))
+        while game_info["Enemies"][boss]["Boss"] == "False":
+            boss = random.choice(list(game_info["Enemies"].keys()))
+        game_info["Map"]["Game Map"][row][room]["Enemies"].append(boss)
+
+
+def populate_items(game_info, row, room, player_position):
+    game_info["Map"]["Game Map"][row][room]["Item"] = ''
+    item_can_place = (random.randrange(0, 100) < 20 or [row, room] == player_position)
+    if game_info["Map"]["Game Map"][row][room]["Piece"] != "░" and item_can_place:
+        random_item = random.choice(list(game_info["Items"].keys()))
+        item_is_not_unique = game_info["Items"][random_item]["Unique"] != "True"
+        if [row, room] == player_position:
+            game_info["Map"]["Game Map"][row][room]["Item"] = "Medkit"
+        elif item_is_not_unique or game_info["Items"][random_item]["Used"] == "False":
+            game_info["Map"]["Game Map"][row][room]["Item"] = random_item
+            game_info["Items"][random_item]["Used"] = "True"
 
 
 def print_map(game_map, player_position, game_info):
     final_map = ""
-    view_range = [2, 4] #Vertical, Horizontal
+    view_range = [2, 4]  # Vertical, Horizontal
     for row in range(len(game_map)):
-        if abs(player_position[0] - row) <= view_range[0]: #Check vertical distance
+        if abs(player_position[0] - row) <= view_range[0]:  # Check vertical distance
             for room in range(len(game_map[row])):
-                if abs(player_position[1] - room) <= view_range[1]: #Check horizontal distance
-                    if [row, room] == player_position:
-                        final_map += f'\033[{game_info["Colours"]["Player"]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
-                    elif (len(game_info["Map"]["Game Map"][row][room]["Enemies"]) > 0):
-                        final_map += f'\033[{game_info["Colours"]["Enemy"]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
-                    else:
-                        final_map += f'\033[{game_info["Colours"][game_info["Map"]["Pieces"][game_map[row][room]]["Colour"]]}m' + game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
+                if abs(player_position[1] - room) <= view_range[1]:  # Check horizontal distance
+                    final_map += add_piece(game_info, player_position, row, room, game_map)
             final_map += "\n"
     print(final_map)
     print(game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Description"])
     print_items(game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Item"], game_info)
 
 
+def add_piece(game_info, player_position, row, room, game_map):
+    final_piece = ''
+    if [row, room] == player_position:
+        final_piece = f'\033[{game_info["Colours"]["Player"]}m' + game_map[row][
+            room] + f'\033[{game_info["Colours"]["Normal"]}m'
+    elif len(game_info["Map"]["Game Map"][row][room]["Enemies"]) > 0:
+        final_piece = f'\033[{game_info["Colours"]["Enemy"]}m' + game_map[row][
+            room] + f'\033[{game_info["Colours"]["Normal"]}m'
+    else:
+        final_piece = f'\033[{game_info["Colours"][game_info["Map"]["Pieces"][game_map[row][room]]["Colour"]]}m' + \
+                     game_map[row][room] + f'\033[{game_info["Colours"]["Normal"]}m'
+    return final_piece
+
+
 def print_items(room_item, game_info):
     if room_item != "":
         print(random.choice(game_info["Items"][room_item]["Room Description"]))
+
 
 def check_level(game_map, new_position, game_info):
     if game_map[new_position[0]][new_position[1]] == "2":
@@ -119,12 +148,7 @@ def initiate_battle(game_info, player_position, last_player_position, game_map):
     battle_message = "In the room you find "
     for enemy in range(len(enemies)):
         if type(game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"]) is not dict:
-            current_battle[enemy] = game_info["Enemies"][enemies[enemy]].copy()
-            battle_message += f"an {current_battle[enemy]['Name']}, and "
-            if current_battle[enemy]["Vengeful"] == "True":
-                current_battle[enemy]["Atk"] = 0
-            if current_battle[enemy]["Speed"] > game_info["Player"]["Speed"]:
-                attacked(game_info, current_battle[enemy], False)
+            battle_message += add_enemy(current_battle, game_info, enemies, enemy)
         else:
             current_battle = game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"]
             battle_message = "So, you've come back to finish the fight. They are still......"
@@ -135,6 +159,15 @@ def initiate_battle(game_info, player_position, last_player_position, game_map):
     return player_position
 
 
+def add_enemy(current_battle, game_info, enemies, enemy):
+    current_battle[enemy] = game_info["Enemies"][enemies[enemy]].copy()
+    if current_battle[enemy]["Vengeful"] == "True":
+        current_battle[enemy]["Atk"] = 0
+    if current_battle[enemy]["Speed"] > game_info["Player"]["Speed"]:
+        attacked(game_info, current_battle[enemy], False)
+    return f"an {current_battle[enemy]['Name']}, and "
+
+
 def battle(game_info, current_battle, player_position, last_player_position, game_map):
     while len(current_battle) > 0:
         time.sleep(1)
@@ -143,30 +176,23 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
             die(game_info)
         has_attacked = False
         numbered_input = get_possible_moves(game_info, "Battle", player_position, current_battle)
-        player_input = input(random.choice(game_info["Messages"]["BATTLEPROMPT"]).replace("!HEALTH", str(game_info["Player"]["HP"])))
+        player_input = input(random.choice(get_message(f'Messages.BATTLEPROMPT', game_info)))
         input_type, player_input = interperet_input(player_input, True, game_info, numbered_input)
         if input_type == "Attack":
             for enemy in current_battle:
-                if ((len(player_input.split(" ")) > 1) and (player_input.split(" ")[1] in current_battle[enemy]["Name"])) or (len(player_input.split(" ")) == 1):
+                if ((len(player_input.split(" ")) > 1) and (
+                        player_input.split(" ")[1] in current_battle[enemy]["Name"])) or (
+                        len(player_input.split(" ")) == 1):
                     current_battle[enemy] = attack(game_info, current_battle[enemy])
                     has_attacked = True
-                    if current_battle[enemy]["HP"] <= 0:
-                        game_info['Player']['Kills'] += 1
-                        game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
-                        print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.DEATH', game_info))
-                        level_up(game_info, current_battle[enemy])
-                        del(current_battle[enemy])
+                    kill_enemy(game_info, current_battle, enemy)
                     break
             if not has_attacked:
                 print("I can't find that enemy.")
         elif input_type == "Inventory":
             display_inventory(game_info)
         elif input_type == "Info":
-            for enemy in current_battle:
-                print("\n")
-                for key, value in current_battle[enemy].items():
-                    if key != "TEXT" and key != "Exp":
-                        print(key + ": " + str(value))
+            check_enemies(current_battle)
         elif input_type == "Flee":
             flee_from_battle(current_battle, game_info)
             game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = current_battle
@@ -181,16 +207,36 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
         if has_attacked:
             for enemy in current_battle.copy():
                 if random.randrange(0, 100) < 25:
-                    print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
-                    time.sleep(1)
-                    game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
-                    level_up(game_info, current_battle[enemy])
-                    del(current_battle[enemy])
+                    enemy_flee(game_info, current_battle, enemy)
                     continue
                 attacked(game_info, current_battle[enemy], False)
-
     game_info["Map"]["Game Map"][player_position[0]][player_position[1]]["Enemies"] = []
     return player_position
+
+
+def kill_enemy(game_info, current_battle, enemy):
+    if current_battle[enemy]["HP"] <= 0:
+        game_info['Player']['Kills'] += 1
+        game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
+        print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.DEATH', game_info))
+        level_up(game_info, current_battle[enemy])
+        del (current_battle[enemy])
+
+
+def check_enemies(current_battle):
+    for enemy in current_battle:
+        print("\n")
+        for key, value in current_battle[enemy].items():
+            if key != "TEXT" and key != "Exp":
+                print(key + ": " + str(value))
+
+
+def enemy_flee(game_info, current_battle, enemy):
+    print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
+    time.sleep(1)
+    game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
+    level_up(game_info, current_battle[enemy])
+    del(current_battle[enemy])
 
 
 def flee_from_battle(current_battle, game_info):
@@ -212,14 +258,13 @@ def attack(game_info, enemy):
     time.sleep(1)
     random_number = random.randrange(0, 100)
     if random_number >= 20:
-        damage = math.ceil((game_info["Player"]["Atk"] * 5) * (random_number/100))
+        damage = math.ceil((game_info["Player"]["Atk"] * 5) * (random_number / 100))
         damage -= enemy["Def"]
         if enemy["Vengeful"] == "True":
             enemy["Atk"] = game_info["Enemies"][enemy["Name"]]["Atk"]
         if damage <= 0:
             print(get_message(f'Enemies.{enemy["Name"]}.TEXT.DEF', game_info))
             return enemy
-
         enemy["HP"] -= damage
         print(get_message(f'Enemies.{enemy["Name"]}.TEXT.HIT', game_info).replace("!DMG", str(damage)))
     else:
@@ -277,7 +322,8 @@ def regenerate_health(game_info):
 
 
 def level_up(game_info, enemy):
-    if (game_info['Player']['Exp'] > 150 and game_info['Player']['Level'] == 1) or (game_info['Player']['Exp'] > 300 and game_info['Player']['Level'] == 2):
+    if (game_info['Player']['Exp'] > 150 and game_info['Player']['Level'] == 1) or (
+            game_info['Player']['Exp'] > 300 and game_info['Player']['Level'] == 2):
         game_info["Player"]["Level"] += 1
         game_info["Player"]["MaxHP"] += 50
 
@@ -331,7 +377,7 @@ def use_item(game_info, item):
             equip_item(game_info, item, "DEF")
         game_info["Player"]["Inventory"][item] -= 1
         if game_info["Player"]["Inventory"][item] <= 0:
-            del(game_info["Player"]["Inventory"][item])
+            del (game_info["Player"]["Inventory"][item])
     else:
         print(get_message("Messages.INVALIDITEM", game_info))
 
@@ -339,7 +385,8 @@ def use_item(game_info, item):
 def equip_item(game_info, item, stat):
     if game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] != "":
         print(game_info["Player"], stat.title())
-        print(get_message("Messages.UNEQUIP", game_info)).replace("!ITEM", game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]])
+        print(get_message("Messages.UNEQUIP", game_info)).replace("!ITEM", game_info["Player"]["Equipped"][
+            game_info["Items"][item]["Slot"]])
         game_info["Player"][stat.title()] -= game_info["Items"][item][stat]
         add_to_inventory(game_info, item)
     game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = game_info["Items"][item]
@@ -407,22 +454,18 @@ def get_grabbable_item(game_info, player_position):
 def choose_class(game_info):
     classes = {}
     iterable = itertools.count()
-    ignore = ["Starting Pos"]
     for possible_class in game_info["Classes"]:
         classes[next(iterable)] = possible_class
-
     while True:
         for key, value in classes.items():
             print(f"{key}: {value}")
-
         player_class = input(get_message("Messages.WELCOME_3", game_info))
         if player_class.isnumeric() and int(player_class) in classes:
             for stat, value in game_info["Classes"][classes[int(player_class)]].items():
-                if stat not in ignore:
+                if stat not in ["Starting Pos"]:
                     print(f"{stat}: {value}")
             if input(get_message("Messages.CONFIRMATION", game_info)).lower() == 'y':
-                chosen_class = classes[int(player_class)]
-                apply_class(game_info, chosen_class)
+                apply_class(game_info, classes[int(player_class)])
                 return game_info["Classes"][chosen_class]["Starting Pos"]
 
 
@@ -456,7 +499,8 @@ def main():
         input_type, player_input = interperet_input(player_input, False, game_info, numbered_input)
         if input_type != "Error":
             if input_type == "Move":
-                player_position, last_player_position = move_player(game_map, player_position, player_input, game_info, last_player_position)
+                player_position, last_player_position = move_player(game_map, player_position, player_input, game_info,
+                                                                    last_player_position)
             elif input_type == "Info":
                 show_player_stats(game_info)
             elif input_type == "Take":

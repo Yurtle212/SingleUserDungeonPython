@@ -19,7 +19,8 @@
         "FLEEATK": ["When you turned to run away, the SCP-049-2 managed to give you a good haymaker to the back of the head. It did !DMG HP."]
       },
       "Exp": 10,
-      "Vengeful": "False"
+      "Vengeful": "False",
+      "Boss": "False"
     },
     "SCP-939": {
       "Name": "SCP-939",
@@ -40,7 +41,8 @@
         "FLEEATK": ["While you were running for your life, the 939 bit you on the ankle. It did !DMG HP"]
       },
       "Exp": 25,
-      "Vengeful": "False"
+      "Vengeful": "False",
+      "Boss": "False"
     },
     "SCP-966": {
       "Name": "SCP-966",
@@ -61,7 +63,8 @@
         "FLEEATK": ["While you were running for the exit, you felt a claw rip your back open. It did !DMG HP."]
       },
       "Exp": 20,
-      "Vengeful": "False"
+      "Vengeful": "False",
+      "Boss": "False"
     },
     "SCP-1000": {
       "Name": "SCP-1000",
@@ -82,7 +85,8 @@
         "FLEEATK": ["You run for the exit, but bigfoot threw something at you. It did !DMG HP."]
       },
       "Exp": 25,
-      "Vengeful": "False"
+      "Vengeful": "False",
+      "Boss": "False"
     },
     "Chaos Insurgency Soldier": {
       "Name": "Chaos Insurgency Soldier",
@@ -103,7 +107,8 @@
         "FLEEATK": ["While you were running for the exit, the CI Soldier shoots you in the ankle. It did !DMG HP."]
       },
       "Exp": 30,
-      "Vengeful": "False"
+      "Vengeful": "False",
+      "Boss": "False"
     },
     "SCP-343": {
       "Name": "SCP-343",
@@ -124,7 +129,30 @@
         "FLEEATK": ["God smiles at you as you run for your life."]
       },
       "Exp": 5,
-      "Vengeful": "True"
+      "Vengeful": "True",
+      "Boss": "False"
+    },
+    "SCP-106": {
+      "Name": "SCP-106",
+      "Atk": 10,
+      "Def": 7,
+      "HP": 100,
+      "Speed": 1,
+      "Description": "SCP-343 is a male, seemingly race-less, humanoid in appearance with apparent omnipotence. SCP-343 was discovered walking the streets of Prague and detained after a staff member witnessed him disappear from the streets and reappear on a rooftop. SCP-343, colloquially nicknamed 'God' by the staff here, looks like an older man, although his features are different to each observer.",
+      "TEXT": {
+        "MISS": ["In awe of the presence of god, you completely forgot to attack it."],
+        "HIT": ["Fighting the urge to bow down, you strike god with your hardest blow. You dealt !DMG HP!", "For some reason, you attack god. One of them hit SCP-966 for !DMG HP!"],
+        "DEF": ["...Why did you attack God? I think you made him angry..."],
+        "ATKMISS": ["God just watches you."],
+        "ATKHIT": ["God smites you. It did !DMG HP."],
+        "ATKDEF": ["God just watches you."],
+        "DEATH": ["You somehow killed god! You gained 5 exp!"],
+        "FLEE": ["God got bored and walked away. You got 5 exp!"],
+        "FLEEATK": ["God smiles at you as you run for your life."]
+      },
+      "Exp": 5,
+      "Vengeful": "True",
+      "Boss": "True"
     }
   },
   "Classes": {
@@ -329,7 +357,7 @@
       "╳": {
         "Dir": ["south", "s"],
         "Colour": "Boss",
-        "Enemies": ["SCP-173"]
+        "Enemies": ["Boss"]
       },
       "2": {
         "Dir": ["north", "south", "n", "s"],
