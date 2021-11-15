@@ -64,7 +64,7 @@ def populate_enemies(game_info, row, room, player_position, game_map):
 
 def populate_items(game_info, row, room, player_position):
     game_info["Map"]["Game Map"][row][room]["Item"] = ''
-    item_can_place = (random.randrange(0, 100) < 20 or [row, room] == player_position)
+    item_can_place = (random.randrange(0, 100) < 40 or [row, room] == player_position)
     if game_info["Map"]["Game Map"][row][room]["Piece"] != "░" and item_can_place:
         random_item = random.choice(list(game_info["Items"].keys()))
         item_is_not_unique = game_info["Items"][random_item]["Unique"] != "True"
@@ -176,7 +176,7 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
             die(game_info)
         has_attacked = False
         numbered_input = get_possible_moves(game_info, "Battle", player_position, current_battle)
-        player_input = input(random.choice(get_message(f'Messages.BATTLEPROMPT', game_info)))
+        player_input = input(get_message("Messages.BATTLEPROMPT", game_info))
         input_type, player_input = interperet_input(player_input, True, game_info, numbered_input)
         if input_type == "Attack":
             for enemy in current_battle:
@@ -232,11 +232,12 @@ def check_enemies(current_battle):
 
 
 def enemy_flee(game_info, current_battle, enemy):
-    print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
-    time.sleep(1)
-    game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
-    level_up(game_info, current_battle[enemy])
-    del(current_battle[enemy])
+    if current_battle[enemy]["Boss"] == "False":
+        print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
+        time.sleep(1)
+        game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
+        level_up(game_info, current_battle[enemy])
+        del(current_battle[enemy])
 
 
 def flee_from_battle(current_battle, game_info):
@@ -247,9 +248,9 @@ def flee_from_battle(current_battle, game_info):
 
 
 def display_inventory(game_info):
-    print("\nItem | Count")
+    print("\nItem \t\t| Count \t| \tDescription")
     for item, count in game_info["Player"]["Inventory"].items():
-        print(item, count)
+        print(item, "\t\t", count, "\t\t\t", game_info["Items"][item]["Description"])
     print('\n')
     time.sleep(1)
 
@@ -384,15 +385,13 @@ def use_item(game_info, item):
 
 def equip_item(game_info, item, stat):
     if game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] != "":
-        print(game_info["Player"], stat.title())
-        print(get_message("Messages.UNEQUIP", game_info)).replace("!ITEM", game_info["Player"]["Equipped"][
-            game_info["Items"][item]["Slot"]])
-        game_info["Player"][stat.title()] -= game_info["Items"][item][stat]
+        slot_item = game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]]
+        print(get_message("Messages.UNEQUIP", game_info).replace("!ITEM", slot_item))
+        game_info["Player"][stat.title()] -= game_info["Items"][slot_item][stat]
         add_to_inventory(game_info, item)
-    game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = game_info["Items"][item]
+    game_info["Player"]["Equipped"][game_info["Items"][item]["Slot"]] = item
     print(get_message(f"Items.{item}.UseText", game_info))
-    new_val = game_info["Classes"][game_info["Player"]["Class"]][stat] + int(game_info["Items"][item][stat])
-    game_info["Player"][stat] = new_val
+    game_info["Player"][stat.title()] += game_info["Items"][item][stat]
 
 
 def get_message(path, game_info):
@@ -466,7 +465,7 @@ def choose_class(game_info):
                     print(f"{stat}: {value}")
             if input(get_message("Messages.CONFIRMATION", game_info)).lower() == 'y':
                 apply_class(game_info, classes[int(player_class)])
-                return game_info["Classes"][chosen_class]["Starting Pos"]
+                return game_info["Classes"][classes[int(player_class)]]["Starting Pos"]
 
 
 def apply_class(game_info, chosen_class):
@@ -474,6 +473,23 @@ def apply_class(game_info, chosen_class):
     game_info["Player"]["Def"] = game_info["Classes"][chosen_class]["Def"]
     game_info["Player"]["Speed"] = game_info["Classes"][chosen_class]["Speed"]
     game_info["Player"]["Sneakyness"] = game_info["Classes"][chosen_class]["Sneakyness"]
+
+
+def win(game_info):
+    print(get_message("Art.Win", game_info))
+    print(get_message("Messages.WIN_1", game_info))
+    time.sleep(3)
+    print(get_message("Messages.WIN_2", game_info))
+    time.sleep(3)
+    print(get_message("Messages.WIN_3", game_info))
+    time.sleep(3)
+    quit()
+
+
+def check_for_win(game_map, player_position):
+    out_of_bounds_negative = player_position[0] < 0 or player_position[1] < 0
+    out_of_bounds_positive = player_position[0] > len(game_map) or player_position[0] > len(game_map[0])
+    return out_of_bounds_positive or out_of_bounds_negative
 
 
 def main():
@@ -501,6 +517,8 @@ def main():
             if input_type == "Move":
                 player_position, last_player_position = move_player(game_map, player_position, player_input, game_info,
                                                                     last_player_position)
+                if player_position[0] < 0:
+                    win(game_info)
             elif input_type == "Info":
                 show_player_stats(game_info)
             elif input_type == "Take":
@@ -508,7 +526,7 @@ def main():
             elif input_type == "Inventory":
                 display_inventory(game_info)
             elif input_type == "Use":
-                item = player_input.split(" ")[1]
+                item = player_input.split(" ", 1)[1]
                 use_item(game_info, item)
                 time.sleep(1)
             elif input_type == "Quit":
