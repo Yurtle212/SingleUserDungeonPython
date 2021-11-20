@@ -341,7 +341,7 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
             quit()
         if has_attacked:
             for enemy in current_battle.copy():
-                if random.randrange(0, 100) < 25:
+                if random.randrange(0, 100) < 25 and current_battle[enemy]["Boss"] == "False":
                     enemy_flee(game_info, current_battle, enemy)
                     continue
                 attacked(game_info, current_battle[enemy], False)
@@ -396,12 +396,11 @@ def enemy_flee(game_info, current_battle, enemy):
     :precondition: all params are formatted correctly.
     :postcondition: Will print the flee message, and remove the enemy from the battle.
     """
-    if current_battle[enemy]["Boss"] == "False":
-        print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
-        time.sleep(1)
-        game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
-        level_up(game_info, current_battle[enemy])
-        del(current_battle[enemy])
+    print(get_message(f'Enemies.{current_battle[enemy]["Name"]}.TEXT.FLEE', game_info))
+    time.sleep(1)
+    game_info['Player']['Exp'] += current_battle[enemy]["Exp"]
+    level_up(game_info, current_battle[enemy])
+    del(current_battle[enemy])
 
 
 def flee_from_battle(current_battle, game_info):

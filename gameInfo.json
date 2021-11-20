@@ -136,7 +136,7 @@
       "Name": "SCP-106",
       "Atk": 10,
       "Def": 7,
-      "HP": 300,
+      "HP": 200,
       "Speed": 1,
       "Description": "SCP-106 appears to be an elderly humanoid, with a general appearance of advanced decomposition. This appearance may vary, but the “rotting” quality is observed in all forms. SCP-106 is not exceptionally agile, and will remain motionless for days at a time, waiting for prey. SCP-106 is also capable of scaling any vertical surface and can remain suspended upside down indefinitely. When attacking, SCP-106 will attempt to incapacitate prey by damaging major organs, muscle groups, or tendons, then pull disabled prey into its pocket dimension. SCP-106 appears to prefer human prey items in the 10-25 years of age bracket. SCP-106 causes a “corrosion” effect in all solid matter it touches, engaging a physical breakdown in materials several seconds after contact.",
       "TEXT": {
@@ -181,8 +181,8 @@
       "Starting Pos": [24, 0]
     },
     "05-Council Member": {
-      "Atk": 10,
-      "Def": 3,
+      "Atk": 7,
+      "Def": 5,
       "Speed": 3,
       "Sneakyness": 5,
       "Description": "The O5-Council is the mysterious council that leads the foundation. Nobody really knows much about who they are or what they can do. (GAME JOURNALIST MODE)",
@@ -249,8 +249,8 @@
     },
     "MP5": {
       "Description": "This is a standard issue mp5 used by the facility guards. One of them must've dropped it when they were running away from something.",
-      "Effect": "Gives you +5ATK",
-      "ATK": 5,
+      "Effect": "Gives you +7ATK",
+      "ATK": 7,
       "Type": "Weapon",
       "Slot": "Hand",
       "Unique": "True",
