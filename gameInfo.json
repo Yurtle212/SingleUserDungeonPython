@@ -3,7 +3,7 @@
     "SCP-049-2": {
       "Name": "SCP-049-2",
       "Atk": 4,
-      "Def": 2,
+      "Def": 3,
       "HP": 25,
       "Speed": 3,
       "Description": "SCP-049-2 instances are reanimated corpses that have been operated on by SCP-049. These instances do not seem to retain any of their prior memories or mental functions, having only basic motor skills and response mechanisms. While these instances are generally inactive, moving very little and in a generally ambulatory fashion, they can become extremely aggressive if provoked, or if directed to by SCP-049. SCP-049-2 instances express active biological functions, though these are vastly different from currently understood human physiology.",
@@ -24,8 +24,8 @@
     },
     "SCP-939": {
       "Name": "SCP-939",
-      "Atk": 4,
-      "Def": 3,
+      "Atk": 6,
+      "Def": 4,
       "HP": 30,
       "Speed": 0,
       "Description": "SCP-939 are endothermic, pack-based predators which display atrophy of various systems similar to troglobitic organisms. The skins of SCP-939 are highly permeable to moisture and translucent red, owing to a compound chemically similar to hemoglobin. SCP-939 average 2.2 meters tall standing upright and weigh an average of 250 kg, though weight is highly variable. Each of their four limbs end in three-fingered claws with a fourth, opposable digit, and are covered in setae which considerably augment climbing ability. Their heads are elongated, devoid of even vestigial eyes or eye sockets, and contain no brain casing. The jaws of SCP-939 are lined with red, faintly luminescent fang-like teeth, similar to those belonging to specimens of the genus Chauliodus, up to 6 cm in length, and encircled by heat-sensitive pit organs. Eye spots, sensitive to light and dark, run the length of their spined dorsal ridges. These spines may be up to 16 cm long and are believed to be sensitive to changes in air pressure and flow.",
@@ -46,7 +46,7 @@
     },
     "SCP-966": {
       "Name": "SCP-966",
-      "Atk": 3,
+      "Atk": 4,
       "Def": 4,
       "HP": 25,
       "Speed": 2,
@@ -68,7 +68,7 @@
     },
     "SCP-1000": {
       "Name": "SCP-1000",
-      "Atk": 3,
+      "Atk": 7,
       "Def": 5,
       "HP": 40,
       "Speed": 1,
@@ -90,8 +90,8 @@
     },
     "Chaos Insurgency Soldier": {
       "Name": "Chaos Insurgency Soldier",
-      "Atk": 5,
-      "Def": 5,
+      "Atk": 6,
+      "Def": 6,
       "HP": 35,
       "Speed": 3,
       "Description": "The Chaos Insurgency (or C.I.) is a major rival organization of the SCP Foundation. The Chaos Insurgency was formed by former agents from the SCP Foundation who defected from the organization and attempted to destroy it.",
@@ -116,7 +116,7 @@
       "Def": 99999999999999999999999999999999999999999999999999999999999999999999999999999999,
       "HP": 99999999999999999999999999999999999999999999999999999999999999999999999999999999,
       "Speed": 1,
-      "Description": "SCP-343 is a male, seemingly race-less, humanoid in appearance with apparent omnipotence. SCP-343 was discovered walking the streets of Prague and detained after a staff member witnessed him disappear from the streets and reappear on a rooftop. SCP-343, colloquially nicknamed 'God' by the staff here, looks like an older man, although his features are different to each observer.",
+      "Description": "SCP-343 is a male, seemingly race-less, humanoid in appearance with apparent omnipotence. SCP-343 was discovered walking the streets of Prague and detained after a staff member witnessed him disappear from the streets and reappear on a rooftop. SCP-343, colloquially nicknamed 'God' by the staff here, looks like an older man, although his features are different to each observer. You probably shouldn't attack this enemy.",
       "TEXT": {
         "MISS": ["In awe of the presence of god, you completely forgot to attack it."],
         "HIT": ["Fighting the urge to bow down, you strike god with your hardest blow. You dealt !DMG HP!", "For some reason, you attack god. One of them hit SCP-966 for !DMG HP!"],
@@ -136,7 +136,7 @@
       "Name": "SCP-106",
       "Atk": 10,
       "Def": 7,
-      "HP": 200,
+      "HP": 300,
       "Speed": 1,
       "Description": "SCP-106 appears to be an elderly humanoid, with a general appearance of advanced decomposition. This appearance may vary, but the “rotting” quality is observed in all forms. SCP-106 is not exceptionally agile, and will remain motionless for days at a time, waiting for prey. SCP-106 is also capable of scaling any vertical surface and can remain suspended upside down indefinitely. When attacking, SCP-106 will attempt to incapacitate prey by damaging major organs, muscle groups, or tendons, then pull disabled prey into its pocket dimension. SCP-106 appears to prefer human prey items in the 10-25 years of age bracket. SCP-106 causes a “corrosion” effect in all solid matter it touches, engaging a physical breakdown in materials several seconds after contact.",
       "TEXT": {
@@ -173,7 +173,7 @@
       "Starting Pos": [14, 1]
     },
     "MTF Agent": {
-      "Atk": 6,
+      "Atk": 4,
       "Def": 5,
       "Speed": 1,
       "Sneakyness": 1,
@@ -181,9 +181,9 @@
       "Starting Pos": [24, 0]
     },
     "05-Council Member": {
-      "Atk": 15,
-      "Def": 6,
-      "Speed": 5,
+      "Atk": 10,
+      "Def": 3,
+      "Speed": 3,
       "Sneakyness": 5,
       "Description": "The O5-Council is the mysterious council that leads the foundation. Nobody really knows much about who they are or what they can do. (GAME JOURNALIST MODE)",
       "Starting Pos": [14, 17]
@@ -237,8 +237,8 @@
     },
     "Knife": {
       "Description": "Looks like a pocket knife someone dropped while they were running.",
-      "Effect": "Gives you +5ATK",
-      "ATK": 5,
+      "Effect": "Gives you +3ATK",
+      "ATK": 3,
       "Type": "Weapon",
       "Slot": "Hand",
       "Unique": "False",
@@ -249,8 +249,8 @@
     },
     "MP5": {
       "Description": "This is a standard issue mp5 used by the facility guards. One of them must've dropped it when they were running away from something.",
-      "Effect": "Gives you +10ATK",
-      "ATK": 10,
+      "Effect": "Gives you +5ATK",
+      "ATK": 5,
       "Type": "Weapon",
       "Slot": "Hand",
       "Unique": "True",
@@ -261,8 +261,8 @@
     },
     "Bullet proof vest": {
       "Description": "It's a bullet proof vest. Can probably protect you from some hits.",
-      "Effect": "Gives you +10DEF",
-      "DEF": 10,
+      "Effect": "Gives you +5DEF",
+      "DEF": 5,
       "Type": "Armour",
       "Slot": "Body",
       "Unique": "True",
@@ -417,10 +417,11 @@
     "WELCOME_2": ["So, what's your name? "],
     "WELCOME_3": ["Welcome to the facility !NAME. So, what class are you here? (Choose one to see their stats) "],
     "CONFIRMATION": ["Do you want to choose this class? (y/N) "],
-    "INTRODUCTION": ["Uh oh, do you hear that alarm? That means there's been a containment breach! It's every man for themselves! *runs away from you*"],
+    "INTRODUCTION": ["Uh oh, do you hear that alarm? That means there's been a containment breach! It's every man for themselves! *runs away from you*\n(n, s, e, w to move.)"],
     "WIN_1": ["Congratulations, !NAME has escaped the facility!"],
     "WIN_2": ["You got !EXPExp and killed !KILLS things!"],
-    "WIN_3": ["Now that you've escaped, you'll probably be killed because of what you saw down there. I hope you know some good hiding places!"]
+    "WIN_3": ["Now that you've escaped, you'll probably be killed because of what you saw down there. I hope you know some good hiding places!"],
+    "SPEED_PRE_ATTACK": ["Jeez this !ENEMY is quick!"]
 
   },
   "Art": {
