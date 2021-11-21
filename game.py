@@ -7,11 +7,12 @@ All of your code must go in this file.
 import json
 import random
 import math
+import sys
 import time
 import itertools
 
 
-def load_game_info():
+def load_game_info(path):
     """
     Load gameInfo.json into a python dictionary.
 
@@ -19,13 +20,13 @@ def load_game_info():
     :precondition: gameInfo.json exists and is formatted correctly.
     :postcondition: Will return gameInfo.json as a python dictionary.
     """
-    with open("gameInfo.json", "r", encoding="utf8") as file:
+    with open(path, "r", encoding="utf8") as file:
         output = file.read()
         final_json = json.loads(output)
         return final_json
 
 
-def load_game_map():
+def load_game_map(path):
     """
     Load the gamemap into a 2d list.
 
@@ -33,7 +34,7 @@ def load_game_map():
     :precondition: map.txt exists and is a rectangle with a blank line at the end.
     :postcondition: Will return map.txt as a 2d list of all the characters.
     """
-    with open("map.txt", "r", encoding="utf8") as file:
+    with open(path, "r", encoding="utf8") as file:
         output = file.readlines()
         for i in range(len(output)):
             output[i] = list(output[i])[:-1]
@@ -391,7 +392,7 @@ def enemy_flee(game_info, current_battle, enemy):
 
     :param game_info: game_info dictionary
     :param current_battle: current_battle dictionary.
-    :param enemy: enemy dictionary.
+    :param enemy: string
     :return: None
     :precondition: all params are formatted correctly.
     :postcondition: Will print the flee message, and remove the enemy from the battle.
@@ -873,14 +874,14 @@ def check_for_win(game_map, player_position):
     return out_of_bounds_positive or out_of_bounds_negative
 
 
-def game():
+def game(game_info_path="./gameInfo.json", map_path="./map.txt"):
     """
     Drives the game
 
     :return: None
     """
-    game_info = load_game_info()
-    game_map = load_game_map()
+    game_info = load_game_info(game_info_path)
+    game_map = load_game_map(map_path)
 
     print(get_message("Messages.WELCOME_1", game_info))
     time.sleep(2)
@@ -923,5 +924,16 @@ def game():
             print(get_message("Messages.INVALIDCOMMAND"), game_info)
 
 
+def get_kwargs(args):
+    final_args = {}
+    for arg in args:
+        if arg.split('=')[0] == "game_info":
+            final_args['game_info_path'] = arg.split('=')[1]
+        elif arg.split('=')[0] == "map":
+            final_args['game_info_path'] = arg.split('=')[1]
+    return final_args
+
+
 if __name__ == "__main__":
-    game()
+    kwargs = get_kwargs(sys.argv)
+    game(**kwargs)
