@@ -930,7 +930,7 @@ def get_kwargs(args):
         if arg.split('=')[0] == "game_info":
             final_args['game_info_path'] = arg.split('=')[1]
         elif arg.split('=')[0] == "map":
-            final_args['game_info_path'] = arg.split('=')[1]
+            final_args['map_path'] = arg.split('=')[1]
     return final_args
 
 
