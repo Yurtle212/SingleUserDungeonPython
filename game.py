@@ -754,7 +754,7 @@ def get_attackable_enemies(enemies, iterator):
     """
     Create a numbered list of all the enemies.
 
-    :param enemies: enemies list
+    :param enemies: enemies dictionary
     :param iterator: iterable
     :return: list of tuples
     :precondition: all params are formatted correctly.
@@ -869,7 +869,7 @@ def check_for_win(game_map, player_position):
     :postcondition: Returns True if player has left the board, False otherwise.
     """
     out_of_bounds_negative = player_position[0] < 0 or player_position[1] < 0
-    out_of_bounds_positive = player_position[0] > len(game_map) or player_position[0] > len(game_map[0])
+    out_of_bounds_positive = player_position[0] > len(game_map) or player_position[1] > len(game_map[0])
     return out_of_bounds_positive or out_of_bounds_negative
 
 
@@ -890,6 +890,7 @@ def game():
     time.sleep(2)
     print(get_message("Messages.INTRODUCTION", game_info))
     time.sleep(2)
+    game_info["Player"]["MaxHP"] = game_info["Player"]["HP"]
 
     last_player_position = [24, 16]
     game_info = populate_game_map(game_info, game_map, player_position)

@@ -15,3 +15,5 @@ Replace this line with your GitHub account
 
 ## Any important comments you'd like to make about your work:
 The game should be played through pycharm. In the terminal turn on "soft wrap" if you don't wanna have to scroll sideways.
+
+Also, A bunch of my functions would be super hard to unit test because of the nature of the game_info dictionary. I did as many as I could without having to write hundreds of lines of dictionary per unit test.

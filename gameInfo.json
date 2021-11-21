@@ -196,7 +196,7 @@
     "Speed": 5,
     "Sneakyness": 6,
     "HP": 100,
-    "MaxHP": 100,
+    "MaxHP": 0,
     "Class": "D-Class",
     "Name": "D-9341",
     "Kills": 0,
