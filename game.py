@@ -243,14 +243,13 @@ def move_player(game_map, player_position, move_direction, game_info, last_playe
     return player_position, last_player_position
 
 
-def initiate_battle(game_info, player_position, last_player_position, game_map):
+def initiate_battle(game_info, player_position, last_player_position):
     """
     Will initialize a battle and start the battle loop, if an enemy is present in the room.
 
     :param game_info: game_info dictionary
     :param player_position: player_position list
     :param last_player_position: last_player_position list
-    :param game_map: game_map list
     :return: player_position list
     :precondition: All params are formatted correctly. player_position and last_player_position are within the bounds of the map.
     :postcondition: returns the player_position if the battle is won or no enemies. Otherwise will return last_player_position. game_info will have been updated.
@@ -267,7 +266,7 @@ def initiate_battle(game_info, player_position, last_player_position, game_map):
             break
     if len(current_battle) > 0:
         print(battle_message[:-6] + " blocking your path.")
-        return battle(game_info, current_battle, player_position, last_player_position, game_map)
+        return battle(game_info, current_battle, player_position, last_player_position)
     return player_position
 
 
@@ -292,7 +291,7 @@ def add_enemy(current_battle, game_info, enemies, enemy):
     return f"an {current_battle[enemy]['Name']}, and "
 
 
-def battle(game_info, current_battle, player_position, last_player_position, game_map):
+def battle(game_info, current_battle, player_position, last_player_position):
     """
     Main battle loop.
 
@@ -300,7 +299,6 @@ def battle(game_info, current_battle, player_position, last_player_position, gam
     :param current_battle: current_battle dictionary
     :param player_position: player_position list
     :param last_player_position: last_player_position list
-    :param game_map: game_map list
     :return: list
     :precondition: All params are formatted correctly.
     :postcondition: Will update the game_info dictionary, and return the player's position.
@@ -896,7 +894,7 @@ def game(game_info_path="./gameInfo.json", map_path="./map.txt"):
     last_player_position = [24, 16]
     game_info = populate_game_map(game_info, game_map, player_position)
     while True:
-        player_position = initiate_battle(game_info, player_position, last_player_position, game_map)
+        player_position = initiate_battle(game_info, player_position, last_player_position)
         print_map(game_map, player_position, game_info)
         numbered_input = get_possible_moves(game_info, "MapView", player_position)
         player_input = input(get_message("Messages.MAPPROMPT", game_info))
