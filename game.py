@@ -1,6 +1,5 @@
 """
 Your name: Lachlan Butler
-Your student number: A01266963
 
 All of your code must go in this file.
 """
